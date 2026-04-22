@@ -95,6 +95,10 @@ class FetchrController:
 
     def shutdown(self) -> None:
         self.base.stop()
-        close = getattr(self.base, 'close', None)
-        if callable(close):
-            close()
+        base_close = getattr(self.base, 'close', None)
+        if callable(base_close):
+            base_close()
+
+        follower_close = getattr(self.follower, 'close', None)
+        if callable(follower_close):
+            follower_close()

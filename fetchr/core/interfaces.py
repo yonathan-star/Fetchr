@@ -39,6 +39,10 @@ class VisionPipeline(Protocol):
     def infer(self) -> WasteDetection: ...
 
 
+class LightController(Protocol):
+    def set_enabled(self, enabled: bool) -> None: ...
+
+
 class ScoopArm(Protocol):
     def collect_cycle(self) -> bool: ...
 

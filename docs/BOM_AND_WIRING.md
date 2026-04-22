@@ -5,7 +5,10 @@
 ### Rover side
 - Raspberry Pi 4 (4GB+), 32GB+ microSD, official 5V/3A regulator from robot battery or dedicated buck converter.
 - USB-to-Mini-DIN 7 pin serial cable for Create 2 OI.
-- CSI camera module (or USB camera) with mount.
+- **One vision device only** (choose one):
+  - ESP32-CAM module, OR
+  - HuskyLens AI camera.
+- 5mm/1W white LED module (side-mounted) + suitable resistor/LED driver transistor.
 - 2x high-torque metal gear servos (arm + scoop axis).
 - PCA9685 servo driver board (recommended; stable PWM vs direct GPIO).
 - Separate 5V 3A rail for servos (do **not** power servos from Pi 5V pin directly).
@@ -28,8 +31,24 @@
 - Create 2 OI Mini-DIN via USB serial cable into Pi USB.
 - OI serial settings: **115200 baud**, 8N1.
 
-### Camera
-- Pi CSI camera -> Pi CSI port (or USB camera -> USB 3.0 port).
+### Phone position tracking
+- Rover and phone must be on the same network (or hotspot).
+- Phone app sends UDP position packets to Pi IP on port `9988`.
+
+### Single camera option A: ESP32-CAM
+- ESP32-CAM powered at stable 5V.
+- ESP32-CAM publishes MJPEG stream (default `http://<ip>:81/stream`).
+- Pi reads stream over Wi-Fi.
+
+### Single camera option B: HuskyLens
+- HuskyLens TX -> Pi RX (UART adapter level-safe) or USB-UART.
+- HuskyLens RX -> Pi TX.
+- Power/GND per module requirements.
+
+### Side LED illumination
+- Pi GPIO21 -> transistor gate/base -> LED module.
+- LED on separate power rail if current is high.
+- Common ground between Pi and LED driver power source.
 
 ### Servo subsystem (recommended)
 - Pi I2C:
@@ -70,21 +89,22 @@
 ## 3) Communications
 - Rover app stack on Pi:
   - Create 2 control over serial.
-  - BLE RSSI tracking via Pi Bluetooth.
-  - Vision inference local on Pi.
+  - Phone position tracking over UDP.
+  - Single-camera inference + LED assist.
 - Dock app stack on ESP32:
   - Sensor acquisition + filtering.
   - WiFi push to phone API endpoint or MQTT topic.
 
 ## 4) Bring-up sequence
 1. Validate Create 2 drive script only.
-2. Validate camera stream + single YOLO model.
-3. Validate servo sweep with external PSU.
-4. Integrate state machine with mocked modules.
-5. Replace mocks with live BLE/YOLO/servo modules.
-6. Validate dock sensors independently.
-7. Validate dock-to-phone packet delivery.
-8. Run full end-to-end test with kill switch accessible.
+2. Validate phone UDP packets are received on Pi.
+3. Validate single camera stream/device feed + LED toggle.
+4. Validate servo sweep with external PSU.
+5. Integrate state machine with simulated components.
+6. Replace sim follower/vision with live phone+camera modules.
+7. Validate dock sensors independently.
+8. Validate dock-to-phone packet delivery.
+9. Run full end-to-end test with kill switch accessible.
 
 ## 5) Safety and reliability checklist
 - Never run servos from Pi 5V pin alone.
