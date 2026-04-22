@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class FetchrController:
+    """Main state-machine orchestration for Fetchr rover+dock workflow."""
+
     config: FetchrConfig
     base: BaseDriver
     follower: Follower
@@ -53,7 +55,6 @@ class FetchrController:
             return
 
         if self.state == RoverState.RETURN_TO_DOCK:
-            # Placeholder docking behavior.
             self.base.stop()
             self.state = RoverState.DOCKED_ANALYZE
             return
@@ -78,10 +79,19 @@ class FetchrController:
 
         turn = int(self.config.drive.turn_gain * heading_error * 100)
         base_speed = self.config.drive.follow_speed_mm_s
-        left = max(-self.config.drive.max_speed_mm_s, min(self.config.drive.max_speed_mm_s, base_speed - turn))
-        right = max(-self.config.drive.max_speed_mm_s, min(self.config.drive.max_speed_mm_s, base_speed + turn))
+        max_speed = self.config.drive.max_speed_mm_s
 
+        left = max(-max_speed, min(max_speed, base_speed - turn))
+        right = max(-max_speed, min(max_speed, base_speed + turn))
         self.base.drive_direct(left, right)
+
+    def run_loop(self, ticks: int | None = None, period_s: float = 0.05) -> None:
+        """Run control loop forever (ticks=None) or for a fixed number of ticks."""
+        i = 0
+        while ticks is None or i < ticks:
+            self.tick()
+            i += 1
+            time.sleep(period_s)
 
     def shutdown(self) -> None:
         self.base.stop()

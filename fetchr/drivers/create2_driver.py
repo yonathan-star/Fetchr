@@ -3,8 +3,6 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 
-from pycreate2 import Create2
-
 logger = logging.getLogger(__name__)
 
 
@@ -14,6 +12,8 @@ class Create2Driver:
     baud: int = 115200
 
     def __post_init__(self) -> None:
+        from pycreate2 import Create2
+
         Create2.__del__ = lambda self: None  # Avoid noisy destructor on some platforms.
         self.robot = Create2(self.port, self.baud)
 

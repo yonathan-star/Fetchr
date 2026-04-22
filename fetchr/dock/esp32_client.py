@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import requests
-
 
 @dataclass
 class ESP32DockClient:
@@ -11,7 +9,8 @@ class ESP32DockClient:
     timeout_s: float = 2.0
 
     def push_sample(self) -> dict:
-        # TODO: replace with signed request payload and auth.
+        import requests
+
         payload = {'event': 'request_latest_sample'}
         resp = requests.post(self.endpoint, json=payload, timeout=self.timeout_s)
         resp.raise_for_status()
