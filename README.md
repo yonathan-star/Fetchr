@@ -80,3 +80,5 @@ python -m unittest discover -s tests -v
 
 ## Hardware still needed for full build
 See `docs/BOM_AND_WIRING.md` for complete parts list and wiring instructions.
+
+If you want the no-jargon checklist, read: `docs/WHAT_YOU_NEED_SIMPLE.md`.
