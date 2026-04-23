@@ -2,7 +2,7 @@
 
 // Fetchr ESP32 -> HuskyLens UART bridge + dual LED illumination
 // - Reads detections from HuskyLens over UART2
-// - Turns on two LEDs when low-light is detected (independent of detections)
+// - Uses camera output (no external photoresistor) to decide when to turn lights on
 // - Prints easy-to-parse lines for the PC bridge script:
 //     ID=<id> x=<xCenter> y=<yCenter>
 
@@ -23,15 +23,11 @@ constexpr int LED2_PIN = 23;
 // Serial to PC (USB)
 constexpr int USB_BAUD = 115200;
 
-// Photoresistor (LDR) analog input for low-light detection
-// Example divider: 3.3V -> LDR -> ADC pin -> 10k resistor -> GND
-constexpr int LDR_PIN = 34;  // ADC-capable input pin on ESP32
-constexpr int LIGHT_THRESHOLD = 1800;  // tune for your divider/environment
-
-bool isLowLight() {
-  int reading = analogRead(LDR_PIN);
-  return reading < LIGHT_THRESHOLD;
-}
+// Camera-only low-light heuristic:
+// if HuskyLens reports no detections for this many frames, treat as "low-light"
+// and enable scene LEDs. Tune this value for your environment.
+constexpr int LOW_LIGHT_NO_DETECTION_FRAMES = 8;
+int noDetectionFrames = 0;
 
 void setLeds(bool on) {
   digitalWrite(LED1_PIN, on ? HIGH : LOW);
@@ -43,7 +39,6 @@ void setup() {
 
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
-  pinMode(LDR_PIN, INPUT);
   setLeds(false);
 
   Husky.begin(HUSKY_BAUD, SERIAL_8N1, HUSKY_RX2_PIN, HUSKY_TX2_PIN);
@@ -63,9 +58,6 @@ void setup() {
 
 void loop() {
   // Request current detections from HuskyLens.
-  bool lowLight = isLowLight();
-  setLeds(lowLight);
-
   if (!huskylens.request()) {
     Serial.println("request FAIL");
     delay(120);
@@ -74,6 +66,15 @@ void loop() {
 
   int availableCount = huskylens.available();
   bool hasDetections = availableCount > 0;
+
+  if (hasDetections) {
+    noDetectionFrames = 0;
+  } else {
+    noDetectionFrames++;
+  }
+
+  bool lowLight = noDetectionFrames >= LOW_LIGHT_NO_DETECTION_FRAMES;
+  setLeds(lowLight);
 
   if (!hasDetections) {
     Serial.print("available: 0 light=");

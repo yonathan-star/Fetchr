@@ -24,7 +24,7 @@ That format is what `python -m fetchr.scripts.bridge_camera_follow` parses.
 
 
 ## Low-light LED behavior
-- LEDs are controlled by a photoresistor (LDR) on GPIO34.
-- LEDs turn **ON in low light** even if camera detects nothing.
-- LEDs turn **OFF in bright light**.
-- Tune `LIGHT_THRESHOLD` in the sketch for your environment.
+- LEDs are controlled from HuskyLens camera output only (no photoresistor).
+- The sketch treats repeated no-detection frames as low-light and turns LEDs ON.
+- The sketch turns LEDs OFF after detections resume.
+- Tune `LOW_LIGHT_NO_DETECTION_FRAMES` in the sketch for sensitivity.
