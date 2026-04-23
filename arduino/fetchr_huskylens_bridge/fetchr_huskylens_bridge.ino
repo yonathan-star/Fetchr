@@ -2,7 +2,7 @@
 
 // Fetchr ESP32 -> HuskyLens UART bridge + dual LED illumination
 // - Reads detections from HuskyLens over UART2
-// - Turns on two LEDs when detections are available
+// - Turns on two LEDs when low-light is detected (independent of detections)
 // - Prints easy-to-parse lines for the PC bridge script:
 //     ID=<id> x=<xCenter> y=<yCenter>
 
@@ -23,6 +23,16 @@ constexpr int LED2_PIN = 23;
 // Serial to PC (USB)
 constexpr int USB_BAUD = 115200;
 
+// Photoresistor (LDR) analog input for low-light detection
+// Example divider: 3.3V -> LDR -> ADC pin -> 10k resistor -> GND
+constexpr int LDR_PIN = 34;  // ADC-capable input pin on ESP32
+constexpr int LIGHT_THRESHOLD = 1800;  // tune for your divider/environment
+
+bool isLowLight() {
+  int reading = analogRead(LDR_PIN);
+  return reading < LIGHT_THRESHOLD;
+}
+
 void setLeds(bool on) {
   digitalWrite(LED1_PIN, on ? HIGH : LOW);
   digitalWrite(LED2_PIN, on ? HIGH : LOW);
@@ -33,6 +43,7 @@ void setup() {
 
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  pinMode(LDR_PIN, INPUT);
   setLeds(false);
 
   Husky.begin(HUSKY_BAUD, SERIAL_8N1, HUSKY_RX2_PIN, HUSKY_TX2_PIN);
@@ -52,8 +63,10 @@ void setup() {
 
 void loop() {
   // Request current detections from HuskyLens.
+  bool lowLight = isLowLight();
+  setLeds(lowLight);
+
   if (!huskylens.request()) {
-    setLeds(false);
     Serial.println("request FAIL");
     delay(120);
     return;
@@ -61,10 +74,10 @@ void loop() {
 
   int availableCount = huskylens.available();
   bool hasDetections = availableCount > 0;
-  setLeds(hasDetections);
 
   if (!hasDetections) {
-    Serial.println("available: 0");
+    Serial.print("available: 0 light=");
+    Serial.println(lowLight ? "LOW" : "BRIGHT");
     delay(80);
     return;
   }

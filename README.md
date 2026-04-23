@@ -102,6 +102,7 @@ What this does:
 - Turns left/right based on x-position thresholds.
 - Drives forward when the object is centered.
 - Stops if no detections are received for the timeout window.
+- Uses an LDR (photoresistor) so LED lights stay ON in low light, independent of detections.
 
 ## Test
 ```bash

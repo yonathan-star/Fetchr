@@ -21,3 +21,10 @@ The sketch emits lines like:
 - `ID=1 x=156 y=148`
 
 That format is what `python -m fetchr.scripts.bridge_camera_follow` parses.
+
+
+## Low-light LED behavior
+- LEDs are controlled by a photoresistor (LDR) on GPIO34.
+- LEDs turn **ON in low light** even if camera detects nothing.
+- LEDs turn **OFF in bright light**.
+- Tune `LIGHT_THRESHOLD` in the sketch for your environment.
