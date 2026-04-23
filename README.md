@@ -82,6 +82,20 @@ Send UDP packets to rover IP on `--phone-port` with JSON:
 ```
 Where `x`,`y` are local meters in rover-start frame.
 
+
+## Camera-only control (no phone tracking required)
+If you want to skip phone tracking and just use camera detections to steer the robot, use the bridge script:
+
+```bash
+python -m fetchr.scripts.bridge_camera_follow   --esp-port COM5   --robot-port COM11   --target-id 1
+```
+
+What this does:
+- Reads lines like `ID=1 x=156 y=148` from ESP32 serial.
+- Turns left/right based on x-position thresholds.
+- Drives forward when the object is centered.
+- Stops if no detections are received for the timeout window.
+
 ## Test
 ```bash
 python -m unittest discover -s tests -v
