@@ -84,6 +84,13 @@ Where `x`,`y` are local meters in rover-start frame.
 
 
 ## Camera-only control (no phone tracking required)
+### ESP32 Arduino sketch for HuskyLens + LEDs
+Upload this sketch to your ESP32:
+- `arduino/fetchr_huskylens_bridge/fetchr_huskylens_bridge.ino`
+
+Wiring + setup notes are in:
+- `docs/HUSKYLENS_ESP32_SCRIPT.md`
+
 If you want to skip phone tracking and just use camera detections to steer the robot, use the bridge script:
 
 ```bash
