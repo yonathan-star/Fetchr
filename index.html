@@ -754,42 +754,67 @@ pre.code {
       <div class="home-hero">
         <div class="home-hero-inner">
           <div class="hero-eyebrow">CIJE Innovation Day 2025–26</div>
-          <h1>Fetchr <em>—</em></h1>
-          <div class="home-hero-tagline">No more stops. No more mess.</div>
+          <h1>The dog walk stays clean.<br><em style="font-style:normal;">You keep moving.</em></h1>
+          <div class="home-hero-tagline">Fetchr is an autonomous dog-walking companion that follows, detects waste, scoops it, and returns to a smart dock that can surface health signals from what it collected.</div>
           <div class="hero-chips">
-            <span class="hero-chip">🤖 Walk-following rover</span>
-            <span class="hero-chip">👁 Dual YOLOv5 AI detection</span>
-            <span class="hero-chip">🦾 Autonomous scooping arm</span>
-            <span class="hero-chip">🏠 Smart charging dock</span>
-            <span class="hero-chip">📊 Pet health monitoring</span>
-            <span class="hero-chip">📡 Bluetooth RSSI tracking</span>
+            <span class="hero-chip">Walk-following rover</span>
+            <span class="hero-chip">Dual AI detection</span>
+            <span class="hero-chip">Autonomous scoop arm</span>
+            <span class="hero-chip">Smart dock analytics</span>
+            <span class="hero-chip">Embedded ESP32 control</span>
+            <span class="hero-chip">CIJE prototype</span>
           </div>
         </div>
       </div>
 
       <div class="content-area">
-        <h2>About Fetchr</h2>
-        <p>Fetchr is an autonomous walk-following robot that detects, scoops, and stores dog waste in real time — so pet owners never have to stop, bag, and carry again.</p>
-        <p>The robot follows its owner during dog walks using Bluetooth RSSI signal tracking. When the dog defecates, two YOLOv5 AI models running on an ESP32 detect the event. The first model identifies a squat posture, and the second confirms waste on the ground. Only when both models agree does the dual-servo arm extend to scoop the waste into a sealed onboard bin.</p>
-        <p>After the walk, Fetchr returns to a smart charging dock. The dock analyzes the collected waste using a color sensor, moisture probe, and load cell, then sends health data to a companion app via WiFi. This gives pet owners a passive window into their dog's digestive health without any extra effort.</p>
+        <span class="section-tag">Overview</span>
+        <h2>Premium landing page up front, full project archive behind it.</h2>
+        <p>Fetchr removes the stop, the bag, the bend, and the carry. During the walk, the rover trails the owner, watches for the event, performs collection, stores the waste, and resumes motion. Afterward, the dock handles charging and basic analysis so cleanup becomes passive instead of annoying.</p>
+        <p>The full research, engineering, prototype, presentation, and documentation pages are still in this site. Use the left navigation to browse everything that was in the original portfolio, now with the cleaner product-style front page you wanted.</p>
 
-        <div class="card-row cols-3" style="margin-top:1.75rem;">
-          <div class="stat-card">
-            <div class="stat-num">94%</div>
-            <div class="stat-lbl">Average detection accuracy across test trials</div>
-          </div>
+        <div class="card-row cols-3" style="margin-top:1.9rem;">
           <div class="stat-card">
             <div class="stat-num">101</div>
-            <div class="stat-lbl">Real survey responses collected</div>
+            <div class="stat-lbl">survey responses informing the concept and market direction</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2</div>
+            <div class="stat-lbl">vision models working together before the scoop cycle starts</div>
           </div>
           <div class="stat-card">
             <div class="stat-num">10</div>
-            <div class="stat-lbl">Custom PETG parts designed in Fusion 360</div>
+            <div class="stat-lbl">custom PETG parts built for the rover, arm, and dock system</div>
+          </div>
+        </div>
+
+        <div class="card-row cols-2" style="margin-top:1.5rem;">
+          <div class="card" style="padding:1.8rem;">
+            <span class="section-tag" style="margin-bottom:0.7rem;">Start Here</span>
+            <h3 style="margin-top:0;">See the product story first</h3>
+            <p>These pages tell the cleanest version of the idea before you dive into the full school documentation.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem;">
+              <a href="#how-it-works" onclick="showPage('how-it-works');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">How It Works</a>
+              <a href="#business-pitch" onclick="showPage('business-pitch');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Business Pitch</a>
+              <a href="#elevator-pitch" onclick="showPage('elevator-pitch');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Elevator Pitch</a>
+              <a href="#abstract" onclick="showPage('abstract');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Abstract</a>
+            </div>
+          </div>
+          <div class="card" style="padding:1.8rem;">
+            <span class="section-tag" style="margin-bottom:0.7rem;">Deep Dive</span>
+            <h3 style="margin-top:0;">Then open the full portfolio pages</h3>
+            <p>All the original sections are preserved, including market research, user research, CAD parts, bill of materials, testing, and references.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem;">
+              <a href="#research-paper" onclick="showPage('research-paper');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Research Paper</a>
+              <a href="#market-overview" onclick="showPage('market-overview');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Market Overview</a>
+              <a href="#decision-matrix" onclick="showPage('decision-matrix');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Decision Matrix</a>
+              <a href="#testing-results" onclick="showPage('testing-results');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Testing</a>
+            </div>
           </div>
         </div>
 
         <div class="callout" style="margin-top:1.75rem;">
-          <p>Fetchr was developed by Yonathan Gal and Refael Omer at David Posnack Jewish Day School in Hollywood, Florida, under the supervision of Mr. David Rivera, for CIJE Innovation Day 2025–26.</p>
+          <p>Fetchr was developed by Yonathan Gal and Refael Omer at David Posnack Jewish Day School in Hollywood, Florida, under the supervision of Mr. David Rivera.</p>
         </div>
       </div>
 
