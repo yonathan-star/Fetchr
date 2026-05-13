@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fetchr — CIJE Innovation Day 2025–26</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 /* ══════════════════════════════════════════
@@ -29,7 +31,7 @@
   --light:    #7d9488;
   --shadow:   0 24px 70px rgba(15, 28, 24, 0.08);
   --sidebar-w: 300px;
-  --header-h:  72px;
+  --header-h:  84px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,7 +56,7 @@ p { line-height: 1.8; color: var(--muted); }
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--header-h);
-  background: rgba(247,248,244,0.82);
+  background: rgba(249, 251, 247, 0.88);
   backdrop-filter: blur(18px);
   display: flex;
   align-items: center;
@@ -63,16 +65,6 @@ p { line-height: 1.8; color: var(--muted); }
   z-index: 200;
   border-bottom: 1px solid rgba(16,36,30,0.08);
 }
-
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 4px;
-  flex-shrink: 0;
-}
-.hamburger span { width: 22px; height: 2px; background: var(--forest); border-radius: 2px; }
 
 .header-logo {
   display: flex;
@@ -88,6 +80,7 @@ p { line-height: 1.8; color: var(--muted); }
   font-size: 18px;
   flex-shrink: 0;
   box-shadow: 0 16px 35px rgba(23,55,44,0.18);
+  color: white;
 }
 .header-logo-text {
   font-size: 1.18rem;
@@ -101,130 +94,107 @@ p { line-height: 1.8; color: var(--muted); }
   text-transform: uppercase;
 }
 
-.header-right {
+.top-nav-shell {
   margin-left: auto;
-  font-size: 0.78rem;
-  color: rgba(20,33,28,0.55);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.top-link {
+  border: 1px solid rgba(16,36,30,0.08);
+  background: rgba(255,255,255,0.72);
+  color: var(--forest);
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+}
+
+.top-link:hover,
+.top-link.active {
+  text-decoration: none;
+  background: linear-gradient(135deg, rgba(156,200,173,0.24), rgba(255,255,255,0.95));
+  box-shadow: 0 10px 24px rgba(23,55,44,0.08);
+  transform: translateY(-1px);
+}
+
+.page-select {
+  appearance: none;
+  border: 1px solid rgba(16,36,30,0.1);
+  background: rgba(255,255,255,0.9);
+  color: var(--forest);
+  border-radius: 999px;
+  padding: 0.75rem 1.1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  min-width: 220px;
+  box-shadow: 0 8px 20px rgba(15,28,24,0.05);
+}
+
+.header-note {
+  font-size: 0.74rem;
+  color: rgba(20,33,28,0.56);
   font-family: 'JetBrains Mono', monospace;
   text-align: right;
 }
 
 /* ── LAYOUT ── */
 .layout {
-  display: flex;
+  display: block;
   padding-top: var(--header-h);
   min-height: 100vh;
 }
 
-/* ── SIDEBAR ── */
-.sidebar {
-  width: var(--sidebar-w);
-  min-height: calc(100vh - var(--header-h));
-  background: rgba(12, 27, 22, 0.92);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255,255,255,0.06);
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  bottom: 0;
-  overflow-y: auto;
-  z-index: 100;
-  transition: transform 0.3s ease;
-  box-shadow: 24px 0 60px rgba(11, 21, 18, 0.16);
-}
-
-.sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-track { background: transparent; }
-.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 2px; }
-
-.sidebar-section { border-bottom: 1px solid rgba(255,255,255,0.06); }
-
-.sidebar-group-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 1rem 0.7rem 1.1rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255,255,255,0.78);
-  text-align: left;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition: background 0.15s;
-}
-.sidebar-group-btn:hover { background: rgba(255,255,255,0.05); }
-.sidebar-group-btn.active { color: white; }
-
-.sidebar-chevron {
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.45);
-  transition: transform 0.25s;
-  flex-shrink: 0;
-}
-.sidebar-group-btn.open .sidebar-chevron { transform: rotate(90deg); }
-
-.sidebar-items {
-  display: none;
-  flex-direction: column;
-  background: rgba(255,255,255,0.03);
-}
-.sidebar-items.open { display: flex; }
-
-.sidebar-link {
-  display: block;
-  padding: 0.5rem 1rem 0.5rem 1.75rem;
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.62);
-  border-left: 3px solid transparent;
-  transition: all 0.18s ease;
-  cursor: pointer;
-  line-height: 1.4;
-  text-decoration: none;
-}
-.sidebar-link:hover {
-  background: rgba(255,255,255,0.06);
-  color: white;
-  text-decoration: none;
-}
-.sidebar-link.active {
-  border-left-color: var(--mint);
-  color: white;
-  background: linear-gradient(90deg, rgba(156,200,173,0.14), rgba(255,255,255,0.02));
-  font-weight: 600;
-}
-
-/* Home link */
-.sidebar-home {
-  display: block;
-  padding: 0.85rem 1rem 0.85rem 1.1rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: white;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
-}
-.sidebar-home:hover { background: rgba(255,255,255,0.05); }
-.sidebar-home.active { color: white; background: linear-gradient(90deg, rgba(156,200,173,0.16), rgba(255,255,255,0.03)); }
-
 /* ── MAIN CONTENT ── */
 .main {
-  margin-left: var(--sidebar-w);
+  margin-left: 0;
   flex: 1;
   min-height: calc(100vh - var(--header-h));
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 2.5rem;
 }
 
-/* ── PAGE SECTIONS ── */
+.nav-strip {
+  max-width: 1080px;
+  margin: 0 auto 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.68);
+  border: 1px solid rgba(16,36,30,0.07);
+  border-radius: 24px;
+  padding: 1rem 1.15rem;
+  box-shadow: 0 16px 40px rgba(15,28,24,0.05);
+  backdrop-filter: blur(14px);
+}
+
+.nav-strip-label {
+  font-size: 0.72rem;
+  color: rgba(20,33,28,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 .page { display: none; }
-.page.active { display: block; }
+.page.active { display: block; animation: fadeIn 0.22s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Home hero */
 .home-hero {
@@ -254,6 +224,38 @@ p { line-height: 1.8; color: var(--muted); }
 }
 
 .home-hero-inner { position: relative; z-index: 1; max-width: 920px; }
+
+.home-bento {
+  max-width: 1080px;
+  margin: 1.35rem auto 0;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1rem;
+}
+
+.bento-card {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(16,36,30,0.07);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.bento-pad { padding: 1.5rem; }
+
+.bento-image {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.bento-stack {
+  display: grid;
+  gap: 1rem;
+}
 
 .hero-eyebrow {
   font-family: 'JetBrains Mono', monospace;
@@ -573,16 +575,16 @@ pre.code {
 
 /* Responsive */
 @media (max-width: 860px) {
-  :root { --sidebar-w: 0px; }
-  .sidebar { transform: translateX(-260px); width: 260px; }
-  .sidebar.open { transform: translateX(0); }
-  .main { margin-left: 0; }
-  .hamburger { display: flex; }
   .top-header { padding: 0 1rem; }
-  .header-right { display: none; }
+  .top-nav-shell { gap: 0.5rem; }
+  .top-links { display: none; }
+  .header-note { display: none; }
+  .page-select { min-width: 0; width: 180px; }
   .main { padding: 0.8rem; }
+  .nav-strip { padding: 0.9rem 1rem; border-radius: 20px; }
   .content-area { padding: 1.6rem 1.2rem; border-radius: 24px; }
   .home-hero { padding: 3rem 1.4rem 2.5rem; border-radius: 24px; }
+  .home-bento { grid-template-columns: 1fr; }
   .card-row.cols-2, .card-row.cols-3 { grid-template-columns: 1fr; }
   .bar-row { grid-template-columns: 130px 1fr 38px; }
   .home-contact { padding: 1.25rem 1.25rem; border-radius: 24px; }
@@ -594,160 +596,104 @@ pre.code {
 
 <!-- ── TOP HEADER ── -->
 <header class="top-header">
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
   <a href="#" class="header-logo" onclick="showPage('home');return false;">
-    <div class="header-logo-icon">🐾</div>
+    <div class="header-logo-icon"><i class="fa-solid fa-paw"></i></div>
     <div>
       <div class="header-logo-text">Fetchr</div>
       <div class="header-logo-sub">CIJE Innovation Day 2025–26</div>
     </div>
   </a>
-  <div class="header-right">
-    David Posnack JDS<br>Hollywood, FL
+  <div class="top-nav-shell">
+    <div class="top-links">
+      <a href="#home" class="top-link" data-page-link="home" onclick="showPage('home');return false;">Home</a>
+      <a href="#how-it-works" class="top-link" data-page-link="how-it-works" onclick="showPage('how-it-works');return false;">How It Works</a>
+      <a href="#research-paper" class="top-link" data-page-link="research-paper" onclick="showPage('research-paper');return false;">Research</a>
+      <a href="#testing-results" class="top-link" data-page-link="testing-results" onclick="showPage('testing-results');return false;">Testing</a>
+      <a href="#business-pitch" class="top-link" data-page-link="business-pitch" onclick="showPage('business-pitch');return false;">Pitch</a>
+      <a href="#references" class="top-link" data-page-link="references" onclick="showPage('references');return false;">References</a>
+    </div>
+    <select id="pageSelect" class="page-select" onchange="if(this.value){showPage(this.value);}">
+      <option value="home">All pages</option>
+      <optgroup label="Background & Market Research">
+        <option value="research-paper">Research Paper</option>
+        <option value="market-overview">Market Overview</option>
+        <option value="competitor-chart">Competitor Chart</option>
+        <option value="business-plan">Business Plan</option>
+        <option value="financials">Financials</option>
+      </optgroup>
+      <optgroup label="Empathize">
+        <option value="end-users-survey">End Users Survey</option>
+        <option value="survey-results">Survey Results</option>
+        <option value="end-user-profiles">End User Profiles</option>
+        <option value="potential-solutions">Potential Solutions</option>
+      </optgroup>
+      <optgroup label="Define">
+        <option value="purpose">Purpose for Innovation</option>
+        <option value="thesis">Thesis Statement</option>
+        <option value="design-goals">Design Goals / Criteria / Constraints</option>
+      </optgroup>
+      <optgroup label="Ideate">
+        <option value="decision-matrix">Decision Matrix</option>
+        <option value="competitive-advantage">Competitive Advantage</option>
+        <option value="approach-reasoning">Approach Reasoning</option>
+      </optgroup>
+      <optgroup label="Engineering Drawings">
+        <option value="system-diagram">System Diagram</option>
+        <option value="bom">Bill of Materials</option>
+        <option value="electrical-schematic">Electrical Schematic</option>
+        <option value="pseudocode">Pseudocode</option>
+        <option value="programming-flowchart">Programming Flowchart</option>
+        <option value="cad-models">CAD Models</option>
+        <option value="component-rationale">Component Selection Rationale</option>
+      </optgroup>
+      <optgroup label="Test & Reflect">
+        <option value="testing-results">Prototype Testing Results</option>
+        <option value="iteration-log">Iterative Reflections</option>
+        <option value="improvements">Possible Improvements</option>
+      </optgroup>
+      <optgroup label="Digital Portfolio">
+        <option value="abstract">Abstract</option>
+        <option value="team-bio">Team Bio</option>
+        <option value="gantt">Gantt Chart</option>
+        <option value="acknowledgements">Acknowledgements</option>
+        <option value="ai-use">AI Use in Project</option>
+      </optgroup>
+      <optgroup label="Prototype">
+        <option value="how-it-works">How It Works</option>
+        <option value="prototype-demo">Demo Video</option>
+      </optgroup>
+      <optgroup label="Presentation">
+        <option value="business-pitch">Business Pitch</option>
+        <option value="elevator-pitch">Elevator Pitch</option>
+      </optgroup>
+      <optgroup label="References">
+        <option value="references">References</option>
+      </optgroup>
+    </select>
+    <div class="header-note">
+      David Posnack JDS<br>Hollywood, FL
+    </div>
   </div>
 </header>
 
 <!-- ── LAYOUT ── -->
 <div class="layout">
 
-  <!-- ── SIDEBAR ── -->
-  <nav class="sidebar" id="sidebar">
-
-    <div class="sidebar-section">
-      <div class="sidebar-home active" id="nav-home" onclick="showPage('home')">🏠 Home</div>
-    </div>
-
-    <!-- Background & Market Research -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Background &amp; Market Research <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('research-paper')">Research Paper</span>
-        <span class="sidebar-link" onclick="showPage('market-overview')">Market Overview</span>
-        <span class="sidebar-link" onclick="showPage('competitor-chart')">Competitor Chart</span>
-        <span class="sidebar-link" onclick="showPage('business-plan')">Business Plan</span>
-        <span class="sidebar-link" onclick="showPage('financials')">Financials</span>
-      </div>
-    </div>
-
-    <!-- Empathize -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Empathize (User Research) <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('end-users-survey')">End Users Survey</span>
-        <span class="sidebar-link" onclick="showPage('survey-results')">Survey Results</span>
-        <span class="sidebar-link" onclick="showPage('end-user-profiles')">End User Profiles</span>
-        <span class="sidebar-link" onclick="showPage('potential-solutions')">Potential Solutions</span>
-      </div>
-    </div>
-
-    <!-- Define -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Define <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('purpose')">Purpose for Innovation</span>
-        <span class="sidebar-link" onclick="showPage('thesis')">Thesis Statement</span>
-        <span class="sidebar-link" onclick="showPage('design-goals')">Design Goals / Criteria / Constraints</span>
-      </div>
-    </div>
-
-    <!-- Ideate -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Ideate (Brainstorm) <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('decision-matrix')">Decision Matrix</span>
-        <span class="sidebar-link" onclick="showPage('competitive-advantage')">Competitive Advantage</span>
-        <span class="sidebar-link" onclick="showPage('approach-reasoning')">Approach Reasoning</span>
-      </div>
-    </div>
-
-    <!-- Engineering Drawings -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Engineering Drawings <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('system-diagram')">System Diagram</span>
-        <span class="sidebar-link" onclick="showPage('bom')">Bill of Materials</span>
-        <span class="sidebar-link" onclick="showPage('electrical-schematic')">Electrical Schematic</span>
-        <span class="sidebar-link" onclick="showPage('pseudocode')">Pseudocode</span>
-        <span class="sidebar-link" onclick="showPage('programming-flowchart')">Programming Flowchart</span>
-        <span class="sidebar-link" onclick="showPage('cad-models')">CAD Models</span>
-        <span class="sidebar-link" onclick="showPage('component-rationale')">Component Selection Rationale</span>
-      </div>
-    </div>
-
-    <!-- Test & Reflect -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Test &amp; Reflect <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('testing-results')">Prototype Testing Results</span>
-        <span class="sidebar-link" onclick="showPage('iteration-log')">Iterative Reflections</span>
-        <span class="sidebar-link" onclick="showPage('improvements')">Possible Improvements</span>
-      </div>
-    </div>
-
-    <!-- Digital Portfolio -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Digital Portfolio <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('abstract')">Abstract</span>
-        <span class="sidebar-link" onclick="showPage('team-bio')">Team Bio</span>
-        <span class="sidebar-link" onclick="showPage('gantt')">Gantt Chart</span>
-        <span class="sidebar-link" onclick="showPage('acknowledgements')">Acknowledgements</span>
-        <span class="sidebar-link" onclick="showPage('ai-use')">AI Use in Project</span>
-      </div>
-    </div>
-
-    <!-- Prototype -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Prototype <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('how-it-works')">How It Works</span>
-        <span class="sidebar-link" onclick="showPage('prototype-demo')">Demo Video</span>
-      </div>
-    </div>
-
-    <!-- Presentation -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        Presentation <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('business-pitch')">Business Pitch</span>
-        <span class="sidebar-link" onclick="showPage('elevator-pitch')">Elevator Pitch</span>
-      </div>
-    </div>
-
-    <!-- References -->
-    <div class="sidebar-section">
-      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
-        References <span class="sidebar-chevron">▶</span>
-      </button>
-      <div class="sidebar-items">
-        <span class="sidebar-link" onclick="showPage('references')">References</span>
-      </div>
-    </div>
-
-  </nav>
-
   <!-- ── MAIN ── -->
   <main class="main">
+    <div class="nav-strip">
+      <div>
+        <div class="nav-strip-label">Explore</div>
+        <div style="font-size:0.95rem;color:var(--forest);font-weight:600;">Project highlights and technical details</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+        <a href="#abstract" class="top-link" onclick="showPage('abstract');return false;">Abstract</a>
+        <a href="#team-bio" class="top-link" onclick="showPage('team-bio');return false;">Team</a>
+        <a href="#bom" class="top-link" onclick="showPage('bom');return false;">BOM</a>
+        <a href="#cad-models" class="top-link" onclick="showPage('cad-models');return false;">CAD</a>
+        <a href="#ai-use" class="top-link" onclick="showPage('ai-use');return false;">AI Use</a>
+      </div>
+    </div>
 
     <!-- ════════════════════════════ HOME ════════════════════════════ -->
     <div id="page-home" class="page active">
@@ -767,11 +713,36 @@ pre.code {
         </div>
       </div>
 
+      <div class="home-bento">
+        <div class="bento-card">
+          <img class="bento-image" src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1400&q=80" alt="Dog walking outdoors with owner">
+        </div>
+        <div class="bento-stack">
+          <div class="bento-card bento-pad">
+            <span class="section-tag" style="margin-bottom:0.7rem;">Product Premise</span>
+            <h3 style="margin-top:0;">A quiet assistant for the worst two minutes of the walk.</h3>
+            <p style="margin-bottom:0;">Fetchr is designed to stay in the background until it is needed, then handle cleanup without interrupting the walk or asking the owner to do anything extra.</p>
+          </div>
+          <div class="bento-card" style="display:grid;grid-template-columns:1fr 1fr;">
+            <div class="bento-pad" style="border-right:1px solid rgba(16,36,30,0.07);">
+              <span class="section-tag" style="margin-bottom:0.55rem;">Detection</span>
+              <div style="font-size:2rem;font-weight:700;color:var(--forest);letter-spacing:-0.04em;">Dual AI</div>
+              <p style="font-size:0.9rem;margin-bottom:0;">Posture plus ground confirmation before the arm deploys.</p>
+            </div>
+            <div class="bento-pad">
+              <span class="section-tag" style="margin-bottom:0.55rem;">Dock Loop</span>
+              <div style="font-size:2rem;font-weight:700;color:var(--forest);letter-spacing:-0.04em;">Smart Return</div>
+              <p style="font-size:0.9rem;margin-bottom:0;">Recharge, analyze, and report after the walk ends.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="content-area">
         <span class="section-tag">Overview</span>
-        <h2>Premium landing page up front, full project archive behind it.</h2>
+        <h2>Autonomous cleanup, built as a real product concept.</h2>
         <p>Fetchr removes the stop, the bag, the bend, and the carry. During the walk, the rover trails the owner, watches for the event, performs collection, stores the waste, and resumes motion. Afterward, the dock handles charging and basic analysis so cleanup becomes passive instead of annoying.</p>
-        <p>The full research, engineering, prototype, presentation, and documentation pages are still in this site. Use the left navigation to browse everything that was in the original portfolio, now with the cleaner product-style front page you wanted.</p>
+        <p>Use the top navigation or the page picker to move between the product story, research, engineering documentation, testing results, and presentation material.</p>
 
         <div class="card-row cols-3" style="margin-top:1.9rem;">
           <div class="stat-card">
@@ -790,8 +761,8 @@ pre.code {
 
         <div class="card-row cols-2" style="margin-top:1.5rem;">
           <div class="card" style="padding:1.8rem;">
-            <span class="section-tag" style="margin-bottom:0.7rem;">Start Here</span>
-            <h3 style="margin-top:0;">See the product story first</h3>
+            <span class="section-tag" style="margin-bottom:0.7rem;">Overview</span>
+            <h3 style="margin-top:0;">Start with the core product story</h3>
             <p>These pages tell the cleanest version of the idea before you dive into the full school documentation.</p>
             <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem;">
               <a href="#how-it-works" onclick="showPage('how-it-works');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">How It Works</a>
@@ -801,8 +772,8 @@ pre.code {
             </div>
           </div>
           <div class="card" style="padding:1.8rem;">
-            <span class="section-tag" style="margin-bottom:0.7rem;">Deep Dive</span>
-            <h3 style="margin-top:0;">Then open the full portfolio pages</h3>
+            <span class="section-tag" style="margin-bottom:0.7rem;">Documentation</span>
+            <h3 style="margin-top:0;">Open the full technical portfolio</h3>
             <p>All the original sections are preserved, including market research, user research, CAD parts, bill of materials, testing, and references.</p>
             <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem;">
               <a href="#research-paper" onclick="showPage('research-paper');return false;" class="hero-chip" style="background:var(--frost);color:var(--forest);border-color:rgba(16,36,30,0.08);">Research Paper</a>
@@ -1590,69 +1561,29 @@ END LOOP</pre>
 <script>
 // ── PAGE ROUTING ──
 function showPage(id) {
-  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target
   const target = document.getElementById('page-' + id);
-  if (target) target.classList.add('active');
+  if (!target) return;
+  target.classList.add('active');
 
-  // Update sidebar active states
-  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-  document.querySelectorAll('.sidebar-home').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('[data-page-link]').forEach(link => {
+    link.classList.toggle('active', link.getAttribute('data-page-link') === id);
+  });
 
-  if (id === 'home') {
-    document.querySelectorAll('.sidebar-home').forEach(l => l.classList.add('active'));
-  } else {
-    // Find the link that matches
-    document.querySelectorAll('.sidebar-link').forEach(l => {
-      if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + id + "'")) {
-        l.classList.add('active');
-        // Open parent group
-        const items = l.closest('.sidebar-items');
-        if (items) {
-          items.classList.add('open');
-          const btn = items.previousElementSibling;
-          if (btn) { btn.classList.add('open'); }
-        }
-      }
-    });
+  const select = document.getElementById('pageSelect');
+  if (select) {
+    select.value = id;
   }
 
-  // Scroll main to top
   document.querySelector('.main').scrollTo(0, 0);
   window.scrollTo(0, 0);
-
-  // Close mobile sidebar
-  document.getElementById('sidebar').classList.remove('open');
-
-  // Update URL hash
   history.replaceState(null, '', '#' + id);
 }
-
-// ── SIDEBAR GROUP TOGGLE ──
-function toggleGroup(btn) {
-  const items = btn.nextElementSibling;
-  const isOpen = items.classList.contains('open');
-  items.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-}
-
-// ── HAMBURGER ──
-document.getElementById('hamburger').addEventListener('click', function() {
-  document.getElementById('sidebar').classList.toggle('open');
-});
 
 // ── HASH ROUTING ──
 window.addEventListener('load', function() {
   const hash = window.location.hash.replace('#', '');
-  if (hash) showPage(hash);
-});
-
-// Click outside sidebar to close on mobile
-document.querySelector('.main').addEventListener('click', function() {
-  if (window.innerWidth <= 860) {
-    document.getElementById('sidebar').classList.remove('open');
-  }
+  showPage(hash || 'home');
 });
 </script>
 
