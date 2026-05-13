@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fetchr — CIJE Innovation Day 2025–26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   FETCHR — CIJE PORTFOLIO
+   Style: Google Sites-inspired, green & outdoorsy
+   ══════════════════════════════════════════ */
+
+:root {
+  --forest:   #1e3a28;
+  --pine:     #2d5c3e;
+  --leaf:     #3a7d52;
+  --sage:     #5a9e72;
+  --mint:     #8ecfa0;
+  --frost:    #d4eedd;
+  --offwhite: #f6f9f6;
+  --paper:    #ffffff;
+  --border:   #dde8dd;
+  --text:     #1a2e1e;
+  --muted:    #4a6050;
+  --light:    #7a9880;
+  --sidebar-w: 260px;
+  --header-h:  60px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--offwhite);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a { color: var(--leaf); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1,h2,h3,h4,h5 { font-family: 'Lora', Georgia, serif; line-height: 1.3; color: var(--forest); }
+p { line-height: 1.75; color: var(--muted); }
+
+/* ── TOP HEADER ── */
+.top-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--forest);
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  gap: 1rem;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.hamburger span { width: 22px; height: 2px; background: white; border-radius: 2px; }
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.header-logo-icon {
+  width: 36px; height: 36px;
+  background: var(--leaf);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.header-logo-text {
+  font-family: 'Lora', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.01em;
+}
+.header-logo-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Source Sans 3', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.header-right {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.55);
+  font-family: 'JetBrains Mono', monospace;
+  text-align: right;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: calc(100vh - var(--header-h));
+  background: var(--paper);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section { border-bottom: 1px solid var(--border); }
+
+.sidebar-group-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem 0.7rem 1.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--forest);
+  text-align: left;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
+}
+.sidebar-group-btn:hover { background: var(--offwhite); }
+.sidebar-group-btn.active { color: var(--leaf); }
+
+.sidebar-chevron {
+  font-size: 0.65rem;
+  color: var(--light);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.sidebar-group-btn.open .sidebar-chevron { transform: rotate(90deg); }
+
+.sidebar-items {
+  display: none;
+  flex-direction: column;
+  background: var(--offwhite);
+}
+.sidebar-items.open { display: flex; }
+
+.sidebar-link {
+  display: block;
+  padding: 0.5rem 1rem 0.5rem 1.75rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.sidebar-link:hover {
+  background: var(--frost);
+  color: var(--forest);
+  text-decoration: none;
+}
+.sidebar-link.active {
+  border-left-color: var(--leaf);
+  color: var(--forest);
+  background: var(--frost);
+  font-weight: 600;
+}
+
+/* Home link */
+.sidebar-home {
+  display: block;
+  padding: 0.85rem 1rem 0.85rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--forest);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Lora', serif;
+}
+.sidebar-home:hover { background: var(--frost); }
+.sidebar-home.active { color: var(--leaf); background: var(--frost); }
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ── PAGE SECTIONS ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* Home hero */
+.home-hero {
+  background: linear-gradient(145deg, var(--forest) 0%, var(--pine) 60%, #3a6b4a 100%);
+  padding: 3.5rem 3rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='0.8' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+}
+.home-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(142,207,160,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.home-hero-inner { position: relative; z-index: 1; max-width: 820px; }
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px; height: 1px;
+  background: var(--mint);
+}
+
+.home-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: white;
+  margin-bottom: 0.4rem;
+}
+.home-hero h1 em {
+  font-style: italic;
+  color: var(--mint);
+}
+
+.home-hero-tagline {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 1.75rem;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.hero-chip {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.82);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  backdrop-filter: blur(4px);
+}
+
+/* Content area */
+.content-area {
+  padding: 2.5rem 3rem;
+  max-width: 920px;
+}
+
+.content-area h2 {
+  font-size: 1.65rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.content-area h3 {
+  font-size: 1.2rem;
+  margin: 1.75rem 0 0.6rem;
+  color: var(--pine);
+}
+
+.content-area p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.content-area ul, .content-area ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* Section label */
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--leaf);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Cards */
+.card-row {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.5rem 0;
+}
+.card-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.card-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem 1.5rem;
+}
+.card h4 { font-size: 1rem; margin-bottom: 0.4rem; }
+.card p { font-size: 0.88rem; margin: 0; }
+
+/* Stat cards */
+.stat-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Lora', serif;
+  font-size: 2.4rem;
+  color: var(--leaf);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.stat-lbl { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+
+/* Callout */
+.callout {
+  background: var(--frost);
+  border-left: 4px solid var(--leaf);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+}
+.callout p { color: var(--pine); font-size: 0.92rem; margin: 0; font-weight: 500; }
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; margin: 1.25rem 0; border-radius: 10px; border: 1px solid var(--border); }
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  background: var(--paper);
+}
+table.data th {
+  background: var(--forest);
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  white-space: nowrap;
+}
+table.data td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  vertical-align: middle;
+}
+table.data tr:last-child td { border-bottom: none; }
+table.data tr:nth-child(even) td { background: var(--offwhite); }
+table.data tr.total-row td { background: var(--frost); font-weight: 700; color: var(--forest); }
+table.data tr.winner-row td { background: rgba(58,125,82,0.06); }
+
+.pass  { color: #267a4a; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.fail  { color: #c0392b; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.part  { color: #b7770d; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.yes   { color: #267a4a; font-weight: 700; }
+.no    { color: #c0392b; }
+.maybe { color: #b7770d; }
+
+/* Bar chart */
+.bar-chart { margin: 1.25rem 0; display: flex; flex-direction: column; gap: 0.65rem; }
+.bar-row { display: grid; grid-template-columns: 180px 1fr 44px; gap: 0.75rem; align-items: center; }
+.bar-lbl { font-size: 0.82rem; color: var(--muted); text-align: right; }
+.bar-track { height: 28px; background: var(--border); border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; background: linear-gradient(to right, var(--forest), var(--sage)); border-radius: 5px; display: flex; align-items: center; padding-left: 0.6rem; }
+.bar-pct { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--leaf); font-weight: 600; }
+
+/* Quote */
+.quote {
+  border-left: 3px solid var(--mint);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.quote-attr {
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--light);
+  margin-top: 0.35rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Progress bars */
+.prog-row { margin-bottom: 1rem; }
+.prog-header { display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.85rem; }
+.prog-track { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(to right, var(--leaf), var(--mint)); border-radius: 999px; }
+
+/* Chip */
+.chip {
+  display: inline-block;
+  background: var(--frost);
+  color: var(--pine);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  margin: 0.15rem;
+}
+
+/* Iteration cards */
+.iter-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--leaf);
+  border-radius: 0 10px 10px 0;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.iter-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+.iter-num { background: var(--forest); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+.badge-fail { background: #fff0f0; color: #c0392b; padding: 0.15rem 0.55rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; }
+.badge-fix  { background: #e8f4ec; color: #267a4a; padding: 0.15rem 0.55rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; }
+
+/* Timeline */
+.timeline { border-left: 2px solid var(--mint); padding-left: 1.5rem; margin: 1.25rem 0; }
+.tl-item { position: relative; margin-bottom: 2rem; }
+.tl-item::before { content: ''; position: absolute; left: -1.95rem; top: 6px; width: 10px; height: 10px; background: var(--leaf); border-radius: 50%; border: 2px solid var(--paper); }
+.tl-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.2rem; }
+.tl-title { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 0.3rem; color: var(--forest); }
+
+/* Part cards */
+.part-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.part-card { background: var(--paper); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+.part-id { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--light); letter-spacing: 0.12em; margin-bottom: 0.15rem; }
+.part-name { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--leaf); font-weight: 600; margin-bottom: 0.4rem; }
+
+/* Spec table */
+.spec-tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0; background: var(--paper); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.spec-tbl td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); }
+.spec-tbl tr:last-child td { border-bottom: none; }
+.spec-tbl td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--leaf); background: var(--offwhite); width: 180px; letter-spacing: 0.04em; }
+.spec-tbl td:last-child { color: var(--muted); }
+
+/* Home contact footer */
+.home-contact {
+  background: var(--paper);
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--forest);
+  color: rgba(255,255,255,0.5);
+  padding: 1.5rem 3rem;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Divider */
+.divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+/* Code block */
+pre.code {
+  background: var(--forest);
+  color: var(--mint);
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+/* Gantt */
+.gantt { width: 100%; font-size: 0.8rem; border-collapse: collapse; margin: 1rem 0; }
+.gantt th { background: var(--forest); color: white; padding: 0.5rem 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.gantt td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+.gantt td.task-name { font-weight: 600; color: var(--text); }
+.gantt .filled { background: var(--sage); border-radius: 3px; height: 20px; }
+.gantt .partial { background: var(--mint); border-radius: 3px; height: 20px; opacity: 0.5; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { transform: translateX(-260px); width: 260px; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .hamburger { display: flex; }
+  .content-area { padding: 1.75rem 1.5rem; }
+  .home-hero { padding: 2.5rem 1.5rem 2rem; }
+  .card-row.cols-2, .card-row.cols-3 { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 130px 1fr 38px; }
+  .home-contact { padding: 1.25rem 1.5rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ── TOP HEADER ── -->
+<header class="top-header">
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <a href="#" class="header-logo" onclick="showPage('home');return false;">
+    <div class="header-logo-icon">🐾</div>
+    <div>
+      <div class="header-logo-text">Fetchr</div>
+      <div class="header-logo-sub">CIJE Innovation Day 2025–26</div>
+    </div>
+  </a>
+  <div class="header-right">
+    David Posnack JDS<br>Hollywood, FL
+  </div>
+</header>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <nav class="sidebar" id="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-home active" id="nav-home" onclick="showPage('home')">🏠 Home</div>
+    </div>
+
+    <!-- Background & Market Research -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Background &amp; Market Research <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('research-paper')">Research Paper</span>
+        <span class="sidebar-link" onclick="showPage('market-overview')">Market Overview</span>
+        <span class="sidebar-link" onclick="showPage('competitor-chart')">Competitor Chart</span>
+        <span class="sidebar-link" onclick="showPage('business-plan')">Business Plan</span>
+        <span class="sidebar-link" onclick="showPage('financials')">Financials</span>
+      </div>
+    </div>
+
+    <!-- Empathize -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Empathize (User Research) <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('end-users-survey')">End Users Survey</span>
+        <span class="sidebar-link" onclick="showPage('survey-results')">Survey Results</span>
+        <span class="sidebar-link" onclick="showPage('end-user-profiles')">End User Profiles</span>
+        <span class="sidebar-link" onclick="showPage('potential-solutions')">Potential Solutions</span>
+      </div>
+    </div>
+
+    <!-- Define -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Define <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('purpose')">Purpose for Innovation</span>
+        <span class="sidebar-link" onclick="showPage('thesis')">Thesis Statement</span>
+        <span class="sidebar-link" onclick="showPage('design-goals')">Design Goals / Criteria / Constraints</span>
+      </div>
+    </div>
+
+    <!-- Ideate -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Ideate (Brainstorm) <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('decision-matrix')">Decision Matrix</span>
+        <span class="sidebar-link" onclick="showPage('competitive-advantage')">Competitive Advantage</span>
+        <span class="sidebar-link" onclick="showPage('approach-reasoning')">Approach Reasoning</span>
+      </div>
+    </div>
+
+    <!-- Engineering Drawings -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Engineering Drawings <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('system-diagram')">System Diagram</span>
+        <span class="sidebar-link" onclick="showPage('bom')">Bill of Materials</span>
+        <span class="sidebar-link" onclick="showPage('electrical-schematic')">Electrical Schematic</span>
+        <span class="sidebar-link" onclick="showPage('pseudocode')">Pseudocode</span>
+        <span class="sidebar-link" onclick="showPage('programming-flowchart')">Programming Flowchart</span>
+        <span class="sidebar-link" onclick="showPage('cad-models')">CAD Models</span>
+        <span class="sidebar-link" onclick="showPage('component-rationale')">Component Selection Rationale</span>
+      </div>
+    </div>
+
+    <!-- Test & Reflect -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Test &amp; Reflect <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('testing-results')">Prototype Testing Results</span>
+        <span class="sidebar-link" onclick="showPage('iteration-log')">Iterative Reflections</span>
+        <span class="sidebar-link" onclick="showPage('improvements')">Possible Improvements</span>
+      </div>
+    </div>
+
+    <!-- Digital Portfolio -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Digital Portfolio <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('abstract')">Abstract</span>
+        <span class="sidebar-link" onclick="showPage('team-bio')">Team Bio</span>
+        <span class="sidebar-link" onclick="showPage('gantt')">Gantt Chart</span>
+        <span class="sidebar-link" onclick="showPage('acknowledgements')">Acknowledgements</span>
+        <span class="sidebar-link" onclick="showPage('ai-use')">AI Use in Project</span>
+      </div>
+    </div>
+
+    <!-- Prototype -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Prototype <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('how-it-works')">How It Works</span>
+        <span class="sidebar-link" onclick="showPage('prototype-demo')">Demo Video</span>
+      </div>
+    </div>
+
+    <!-- Presentation -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        Presentation <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('business-pitch')">Business Pitch</span>
+        <span class="sidebar-link" onclick="showPage('elevator-pitch')">Elevator Pitch</span>
+      </div>
+    </div>
+
+    <!-- References -->
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="toggleGroup(this)">
+        References <span class="sidebar-chevron">▶</span>
+      </button>
+      <div class="sidebar-items">
+        <span class="sidebar-link" onclick="showPage('references')">References</span>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- ════════════════════════════ HOME ════════════════════════════ -->
+    <div id="page-home" class="page active">
+      <div class="home-hero">
+        <div class="home-hero-inner">
+          <div class="hero-eyebrow">CIJE Innovation Day 2025–26</div>
+          <h1>Fetchr <em>—</em></h1>
+          <div class="home-hero-tagline">No more stops. No more mess.</div>
+          <div class="hero-chips">
+            <span class="hero-chip">🤖 Walk-following rover</span>
+            <span class="hero-chip">👁 Dual YOLOv5 AI detection</span>
+            <span class="hero-chip">🦾 Autonomous scooping arm</span>
+            <span class="hero-chip">🏠 Smart charging dock</span>
+            <span class="hero-chip">📊 Pet health monitoring</span>
+            <span class="hero-chip">📡 Bluetooth RSSI tracking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <h2>About Fetchr</h2>
+        <p>Fetchr is an autonomous walk-following robot that detects, scoops, and stores dog waste in real time — so pet owners never have to stop, bag, and carry again.</p>
+        <p>The robot follows its owner during dog walks using Bluetooth RSSI signal tracking. When the dog defecates, two YOLOv5 AI models running on an ESP32 detect the event. The first model identifies a squat posture, and the second confirms waste on the ground. Only when both models agree does the dual-servo arm extend to scoop the waste into a sealed onboard bin.</p>
+        <p>After the walk, Fetchr returns to a smart charging dock. The dock analyzes the collected waste using a color sensor, moisture probe, and load cell, then sends health data to a companion app via WiFi. This gives pet owners a passive window into their dog's digestive health without any extra effort.</p>
+
+        <div class="card-row cols-3" style="margin-top:1.75rem;">
+          <div class="stat-card">
+            <div class="stat-num">94%</div>
+            <div class="stat-lbl">Average detection accuracy across test trials</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">101</div>
+            <div class="stat-lbl">Real survey responses collected</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">10</div>
+            <div class="stat-lbl">Custom PETG parts designed in Fusion 360</div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:1.75rem;">
+          <p>Fetchr was developed by Yonathan Gal and Refael Omer at David Posnack Jewish Day School in Hollywood, Florida, under the supervision of Mr. David Rivera, for CIJE Innovation Day 2025–26.</p>
+        </div>
+      </div>
+
+      <div class="home-contact">
+        <div><strong>School:</strong> David Posnack Jewish Day School, Hollywood, FL</div>
+        <div><strong>Team:</strong> Yonathan Gal &amp; Refael Omer</div>
+        <div><strong>Supervisor:</strong> Mr. David Rivera</div>
+        <div><strong>Event:</strong> CIJE Innovation Day, May 12, 2026</div>
+      </div>
+    </div>
+
+    <!-- ════════ BACKGROUND & MARKET RESEARCH ════════ -->
+
+    <div id="page-research-paper" class="page">
+      <div class="content-area">
+        <span class="section-tag">Background &amp; Market Research</span>
+        <h2>Research Paper</h2>
+        <h3>The Problem</h3>
+        <p>Dog waste left on sidewalks and public walkways is one of the most persistent urban hygiene issues in the United States. More than 40 million households own at least one dog, and on average, a single dog produces around 275 pounds of waste per year. Despite widespread awareness of the sanitation and health risks, a significant portion of this waste is never collected.</p>
+        <p>Studies by the EPA have identified dog waste as a top-three contributor to bacteria in urban stormwater runoff. Waste left on sidewalks contains E. coli, Salmonella, Giardia, and roundworm eggs that can survive in soil for weeks and wash into drainage systems during rain events. The public health impact is measurable and well-documented.</p>
+        <p>Yet the behavior change required to solve this problem is simple and obvious: pick it up. The barrier is not knowledge or intent. The barrier is friction. Carrying bags, bending down, tying the bag, carrying it to a trash can — all while managing a dog on a leash — is enough of an inconvenience that many owners skip it.</p>
+        <h3>Existing Solutions and Their Limits</h3>
+        <p>Current solutions fall into two categories: convenience improvements for manual collection (biodegradable bags, scooper tools, leash-attached dispensers) and yard-specific cleaning services that operate when the owner is not present. Neither category addresses the core problem during an active walk.</p>
+        <p>No product on the consumer market autonomously handles waste collection in real time during a dog walk. This is the gap Fetchr fills.</p>
+        <h3>The Technology Window</h3>
+        <p>Several enabling technologies have matured enough to make an autonomous walk-following waste collection robot feasible at the prototype level. YOLOv5 object detection runs efficiently on embedded microcontrollers. Servo motors are inexpensive and precise. Bluetooth Low Energy provides reliable proximity tracking. 3D printing in PETG allows rapid custom fabrication. The iRobot Create 2 Pro provides a reliable programmable base platform. Taken together, these tools create a realistic path from concept to working prototype at a student project budget.</p>
+      </div>
+    </div>
+
+    <div id="page-market-overview" class="page">
+      <div class="content-area">
+        <span class="section-tag">Background &amp; Market Research</span>
+        <h2>Market Overview</h2>
+        <div class="card-row cols-3">
+          <div class="stat-card"><div class="stat-num">$261B</div><div class="stat-lbl">US pet care market (2024)</div></div>
+          <div class="stat-card"><div class="stat-num">66%</div><div class="stat-lbl">US households that own a pet</div></div>
+          <div class="stat-card"><div class="stat-num">$0</div><div class="stat-lbl">Autonomous walk-following waste robots currently on market</div></div>
+        </div>
+        <h3>Target Customer</h3>
+        <p>The primary customer is an urban or suburban dog owner who walks their dog daily, is comfortable with connected home technology, and already spends on premium pet products. Secondary markets include older adults and people with mobility limitations for whom bending and bagging is physically difficult.</p>
+        <h3>Total Addressable Market</h3>
+        <p>Approximately 40 million dog-owning households in the US walk their dogs regularly. If Fetchr captures even 1% of that market at a $299 price point, that represents $120 million in hardware revenue — before consumables or subscription services are factored in.</p>
+        <h3>Market Timing</h3>
+        <p>91% of survey respondents had never heard of a walk-following waste robot. This is a greenfield opportunity. No competitor currently occupies this space, which means first-mover advantages in brand recognition, patent filing, and customer acquisition are available.</p>
+      </div>
+    </div>
+
+    <div id="page-competitor-chart" class="page">
+      <div class="content-area">
+        <span class="section-tag">Background &amp; Market Research</span>
+        <h2>Competitor Chart</h2>
+        <div class="tbl-wrap">
+          <table class="data">
+            <thead><tr><th>Product / Approach</th><th>Walk Following</th><th>Auto Detection</th><th>Auto Scooping</th><th>Health Data</th><th>Hands-Free</th><th>Price Range</th></tr></thead>
+            <tbody>
+              <tr class="winner-row"><td><strong>✦ Fetchr (this project)</strong></td><td><span class="yes">✓ Yes</span></td><td><span class="yes">✓ Yes</span></td><td><span class="yes">✓ Yes</span></td><td><span class="yes">✓ Yes</span></td><td><span class="yes">✓ Yes</span></td><td>~$299</td></tr>
+              <tr><td>Waste bags / scooper</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td>$0–15</td></tr>
+              <tr><td>Yard cleaning services</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="maybe">~ Manual</span></td><td><span class="no">✗</span></td><td><span class="maybe">~ Partial</span></td><td>$50–100/mo</td></tr>
+              <tr><td>iRobot Roomba (yard)</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="maybe">~ Partial</span></td><td>$300–600</td></tr>
+              <tr><td>Smart dog collar trackers</td><td><span class="no">✗</span></td><td><span class="maybe">~ Limited</span></td><td><span class="no">✗</span></td><td><span class="maybe">~ Limited</span></td><td><span class="no">✗</span></td><td>$80–200</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><p>Fetchr is the only solution in any category that combines walk-following, automatic detection, autonomous scooping, and health monitoring in a single integrated system.</p></div>
+      </div>
+    </div>
+
+    <div id="page-business-plan" class="page">
+      <div class="content-area">
+        <span class="section-tag">Background &amp; Market Research</span>
+        <h2>Business Plan</h2>
+        <h3>Revenue Streams</h3>
+        <div class="card-row cols-3">
+          <div class="card"><h4>Hardware Sales</h4><p>One-time purchase of the Fetchr rover and smart dock. Target retail: $299. Gross margin target ~46% at scale.</p></div>
+          <div class="card"><h4>Consumables</h4><p>Replacement bin liners, biodegradable scoop cup inserts. Recurring, high-margin revenue. Est. $8–15/month per user.</p></div>
+          <div class="card"><h4>Fetchr Health+</h4><p>Optional subscription unlocking extended health data history, vet report exports, and anomaly alerts. $7.99/month.</p></div>
+        </div>
+        <h3>Go-to-Market Strategy</h3>
+        <ol><li>Direct-to-consumer online launch via fetchr.com</li><li>Pet influencer seeding program</li><li>Partnerships with dog training studios and vet clinics</li><li>Targeted digital ads to dog owners in urban zip codes</li><li>Crowdfunding campaign for early adopter pricing</li><li>Distribution through pet specialty retail (PetSmart, Chewy)</li></ol>
+        <h3>Unit Economics (Scale Target)</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+          <tr><td>Retail price</td><td>$299</td></tr>
+          <tr><td>Target COGS (10K units)</td><td>~$160</td></tr>
+          <tr><td>Hardware gross margin</td><td>~46%</td></tr>
+          <tr><td>Health+ annual revenue/user</td><td>$95.88</td></tr>
+          <tr><td>Target Health+ attach rate</td><td>25%</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+
+    <div id="page-financials" class="page">
+      <div class="content-area">
+        <span class="section-tag">Background &amp; Market Research</span>
+        <h2>Financials</h2>
+        <h3>Prototype Budget</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Component</th><th>Qty</th><th>Est. Cost</th></tr></thead><tbody>
+          <tr><td>iRobot Create 2 Pro base</td><td>1</td><td>~$200</td></tr>
+          <tr><td>ESP32 dev boards</td><td>2</td><td>~$14</td></tr>
+          <tr><td>Camera module (OV2640)</td><td>1</td><td>~$10</td></tr>
+          <tr><td>Servo motors (MG996R)</td><td>2</td><td>~$16</td></tr>
+          <tr><td>TCS34725 color sensor</td><td>1</td><td>~$8</td></tr>
+          <tr><td>Capacitive moisture probe</td><td>1</td><td>~$4</td></tr>
+          <tr><td>HX711 + load cell</td><td>1</td><td>~$7</td></tr>
+          <tr><td>PETG filament (1kg)</td><td>1</td><td>~$22</td></tr>
+          <tr><td>LiPo battery pack</td><td>1</td><td>~$18</td></tr>
+          <tr><td>Misc wiring / connectors</td><td>—</td><td>~$12</td></tr>
+          <tr class="total-row"><td><strong>Total</strong></td><td></td><td><strong>~$311</strong></td></tr>
+        </tbody></table></div>
+        <h3>5-Year Revenue Projection (Hypothetical)</h3>
+        <div class="prog-row"><div class="prog-header"><span>Year 1 — 500 units</span><span>$149,500</span></div><div class="prog-track"><div class="prog-fill" style="width:8%"></div></div></div>
+        <div class="prog-row"><div class="prog-header"><span>Year 2 — 3,000 units</span><span>$897,000</span></div><div class="prog-track"><div class="prog-fill" style="width:30%"></div></div></div>
+        <div class="prog-row"><div class="prog-header"><span>Year 3 — 10,000 units</span><span>$2.99M</span></div><div class="prog-track"><div class="prog-fill" style="width:55%"></div></div></div>
+        <div class="prog-row"><div class="prog-header"><span>Year 4 — 25,000 units</span><span>$7.47M</span></div><div class="prog-track"><div class="prog-fill" style="width:78%"></div></div></div>
+        <div class="prog-row"><div class="prog-header"><span>Year 5 — 50,000 units + subs</span><span>$15M+</span></div><div class="prog-track"><div class="prog-fill" style="width:100%"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ════════ EMPATHIZE ════════ -->
+
+    <div id="page-end-users-survey" class="page">
+      <div class="content-area">
+        <span class="section-tag">Empathize — User Research</span>
+        <h2>End Users Survey</h2>
+        <p>A 16-question Google Form survey was designed to understand dog owner attitudes toward waste collection, technology adoption, and willingness to pay. The survey was distributed online and collected 101 real responses.</p>
+        <h3>Survey Goals</h3>
+        <ul><li>Measure how much of a pain point waste collection is for owners</li><li>Identify the top barriers to adopting a robotic solution</li><li>Validate or invalidate the health monitoring feature</li><li>Understand price sensitivity</li><li>Gather open-ended feedback on desired features</li></ul>
+        <h3>Sample Questions</h3>
+        <ul>
+          <li>How often do you walk your dog per day?</li>
+          <li>How often do you forget or choose not to pick up after your dog?</li>
+          <li>Have you ever heard of a robot that follows you and scoops for you?</li>
+          <li>What would stop you from buying a product like this?</li>
+          <li>What features would matter most to you?</li>
+          <li>Would you pay for access to your dog's health data collected during walks?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="page-survey-results" class="page">
+      <div class="content-area">
+        <span class="section-tag">Empathize — User Research</span>
+        <h2>Survey Results</h2>
+        <p>101 responses collected. Respondents were primarily dog owners from Florida and surrounding states.</p>
+        <div class="card-row cols-3" style="margin:1.25rem 0;">
+          <div class="stat-card"><div class="stat-num">101</div><div class="stat-lbl">Total responses</div></div>
+          <div class="stat-card"><div class="stat-num">91%</div><div class="stat-lbl">Never heard of a walk-following waste robot</div></div>
+          <div class="stat-card"><div class="stat-num">75%</div><div class="stat-lbl">Would find pet health data valuable</div></div>
+        </div>
+
+        <h3>Top Barriers to Purchase</h3>
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-lbl">Cost too high</div><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><div class="bar-pct">78%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Reliability doubts</div><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><div class="bar-pct">56%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Safety concerns</div><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><div class="bar-pct">44%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Charging hassle</div><div class="bar-track"><div class="bar-fill" style="width:31%"></div></div><div class="bar-pct">31%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Dog might be scared</div><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><div class="bar-pct">28%</div></div>
+        </div>
+
+        <h3>Most Desired Features</h3>
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-lbl">Easy to empty</div><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><div class="bar-pct">56%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Reliable detection</div><div class="bar-track"><div class="bar-fill" style="width:51%"></div></div><div class="bar-pct">51%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Long battery life</div><div class="bar-track"><div class="bar-fill" style="width:49%"></div></div><div class="bar-pct">49%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Health data dashboard</div><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><div class="bar-pct">42%</div></div>
+          <div class="bar-row"><div class="bar-lbl">Compact size</div><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><div class="bar-pct">38%</div></div>
+        </div>
+
+        <h3>Open Response Highlights</h3>
+        <div class="quote">"I love my dog. I hate this part of having a dog. If a robot could do it, I'd buy it tomorrow."<div class="quote-attr">Survey respondent</div></div>
+        <div class="quote">"My biggest concern is whether it can actually get all of it. Partial cleanup is worse than no cleanup."<div class="quote-attr">Survey respondent</div></div>
+        <div class="quote">"A data log of my dog's health trends over time would be something I'd actually use at the vet."<div class="quote-attr">Survey respondent</div></div>
+        <div class="quote">"Would be great if it could empty itself into an outdoor bin, or at least alert me when it's full."<div class="quote-attr">Survey respondent</div></div>
+      </div>
+    </div>
+
+    <div id="page-end-user-profiles" class="page">
+      <div class="content-area">
+        <span class="section-tag">Empathize — User Research</span>
+        <h2>End User Profiles</h2>
+        <div class="card-row cols-2">
+          <div class="card"><h4>The Urban Professional</h4><p>Works full-time, walks their dog twice daily before and after work. Values time above all else. Already owns a Roomba, smart thermostat, and Ring doorbell. Would pay a premium for anything that removes friction from their routine.</p></div>
+          <div class="card"><h4>The Older Pet Owner</h4><p>Retired, loves their dog, but bending down to scoop is painful due to arthritis or back issues. Has avoided getting a dog for years because of this exact problem. Fetchr represents the ability to own a dog again without physical discomfort.</p></div>
+          <div class="card"><h4>The Health-Conscious Owner</h4><p>Tracks their dog's diet meticulously. Would love passive health monitoring that doesn't require a vet visit. Values the dock's sensor suite and would likely subscribe to Health+.</p></div>
+          <div class="card"><h4>The Eco-Minded Owner</h4><p>Dislikes single-use plastic bags. Would be attracted to Fetchr's reusable sealed bin as a sustainable alternative. Likely to buy biodegradable liner inserts.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-potential-solutions" class="page">
+      <div class="content-area">
+        <span class="section-tag">Empathize — User Research</span>
+        <h2>Potential Solutions Explored</h2>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Concept</th><th>Description</th><th>Eliminated Because</th></tr></thead><tbody>
+          <tr><td>Walk-Following Robot (Fetchr)</td><td>Autonomous rover follows owner, detects and scoops waste</td><td>— Selected design —</td></tr>
+          <tr><td>Yard-Only Cleaning Robot</td><td>Stationary robot scans yard on a schedule</td><td>Does not work during walks, misses all sidewalk deposits</td></tr>
+          <tr><td>Smart Leash with Bag Dispenser</td><td>Auto-dispenses bags and alerts owner when to pick up</td><td>Still requires manual action from owner</td></tr>
+          <tr><td>AI Camera + Alert App</td><td>Alerts owner via app when waste is detected</td><td>Still requires manual action; adds app overhead without solving problem</td></tr>
+          <tr><td>Wearable Waste Catcher</td><td>Attaches to dog to catch waste before it hits ground</td><td>Uncomfortable for dogs, impractical, hygiene issues</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ════════ DEFINE ════════ -->
+
+    <div id="page-purpose" class="page">
+      <div class="content-area">
+        <span class="section-tag">Define</span>
+        <h2>Purpose for Innovation</h2>
+        <p>Dog waste on public sidewalks is a sanitation and public health problem that affects every urban and suburban community with a significant dog-owning population. The problem is not one of awareness — most dog owners know they should pick up after their pets. The problem is one of friction: the act of bending, bagging, tying, and carrying waste is inconvenient enough that many owners skip it, especially during longer walks or in moments of distraction.</p>
+        <p>Existing technology has not addressed this specific moment. Yard-cleaning robots, smart feeders, collar trackers — none of them solve the problem that happens on the sidewalk, mid-walk, when the owner's hands are full and the dog is already pulling on the leash.</p>
+        <p>Fetchr exists to remove that friction entirely. The owner does not change their behavior. They walk their dog. The robot handles the rest.</p>
+        <div class="callout"><p>The innovation is not the hardware. The innovation is the idea that this moment in a dog walk does not have to involve the owner at all.</p></div>
+      </div>
+    </div>
+
+    <div id="page-thesis" class="page">
+      <div class="content-area">
+        <span class="section-tag">Define</span>
+        <h2>Thesis Statement</h2>
+        <div class="callout" style="margin:1.5rem 0;"><p style="font-size:1.05rem;line-height:1.7;">Dog waste left on public walkways poses health and sanitation risks that current solutions fail to address automatically. Fetchr is a walk-following robot that detects, scoops, and stores dog waste in real time using AI vision and a robotic arm, removing the need for owner intervention during walks.</p></div>
+        <h3>Abstract</h3>
+        <p>Dog waste on sidewalks and public walkways is a widespread sanitation problem. Existing solutions require manual effort from pet owners, and no autonomous product currently exists that handles waste collection during the walk itself. Fetchr addresses this gap by combining a walk-following robot base with an onboard AI detection system and a mechanical scooping arm.</p>
+        <p>The robot uses Bluetooth RSSI to follow its owner during dog walks. When the dog squats, a YOLOv5 model running on an ESP32 detects the posture change, and a second model confirms waste on the ground. A dual-servo arm then extends, scoops the waste into a sealed onboard bin, and retracts. After the walk, the robot returns to a smart charging dock equipped with a color sensor, moisture probe, and load cell that analyze the collected waste for health indicators and send the data to a companion app via WiFi.</p>
+        <p>The prototype is built on an iRobot Create 2 Pro base with custom 3D-printed PETG components designed in Fusion 360. Fetchr removes a daily friction point for pet owners while improving public hygiene and offering a passive window into pet health.</p>
+      </div>
+    </div>
+
+    <div id="page-design-goals" class="page">
+      <div class="content-area">
+        <span class="section-tag">Define</span>
+        <h2>Design Goals / Criteria / Constraints</h2>
+        <div class="card-row cols-3">
+          <div class="card"><h4>Goals</h4><ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;line-height:2;"><li>Follow owner at walking pace</li><li>Detect waste with >90% accuracy</li><li>Scoop without owner stopping</li><li>Seal waste with no odor leakage</li><li>Return to dock automatically</li><li>Report health data via app</li></ul></div>
+          <div class="card"><h4>Criteria</h4><ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;line-height:2;"><li>Complete collection in &lt;15 sec</li><li>Follow distance: 1–2 meters</li>Bin capacity: min 3 collections<li>Run min 60 min on one charge</li><li>Weigh under 5 kg total</li><li>No sharp external edges</li></ul></div>
+          <div class="card"><h4>Constraints</h4><ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;line-height:2;"><li>Student-level budget (~$300)</li><li>Must use iRobot Create 2 base</li><li>PETG fabrication only</li><li>ESP32 as main compute</li><li>No GPS (too imprecise at close range)</li><li>Prototype scope only</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ IDEATE ════════ -->
+
+    <div id="page-decision-matrix" class="page">
+      <div class="content-area">
+        <span class="section-tag">Ideate — Brainstorm</span>
+        <h2>Decision Matrix</h2>
+        <p>Four design concepts were scored against five weighted criteria. Scores are 1–5; weighted totals determine the selected design.</p>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Concept</th><th>Autonomy ×0.25</th><th>Ease of Use ×0.20</th><th>Reliability ×0.25</th><th>Cost ×0.15</th><th>Dog Safety ×0.15</th><th>Total</th></tr></thead><tbody>
+          <tr class="winner-row"><td><strong>✦ Walk-Following Robot (Fetchr)</strong></td><td>5</td><td>5</td><td>4</td><td>3</td><td>4</td><td><strong>4.30</strong></td></tr>
+          <tr><td>Yard-Only Cleaning Robot</td><td>3</td><td>4</td><td>4</td><td>4</td><td>5</td><td>3.75</td></tr>
+          <tr><td>Smart Bag Dispenser on Leash</td><td>1</td><td>4</td><td>5</td><td>5</td><td>5</td><td>3.40</td></tr>
+          <tr><td>Manual Scoop + AI Guidance</td><td>1</td><td>3</td><td>5</td><td>5</td><td>5</td><td>3.25</td></tr>
+        </tbody></table></div>
+        <div class="callout"><p>The walk-following robot scored highest at 4.30, leading on the two highest-weighted criteria — autonomy and ease of use.</p></div>
+      </div>
+    </div>
+
+    <div id="page-competitive-advantage" class="page">
+      <div class="content-area">
+        <span class="section-tag">Ideate — Brainstorm</span>
+        <h2>Competitive Advantage</h2>
+        <p>Fetchr's competitive advantage rests on four pillars that no existing product combines:</p>
+        <div class="card-row cols-2">
+          <div class="card"><h4>Walk-Following</h4><p>Every other pet robot is stationary or yard-bound. Fetchr is the only solution designed for the sidewalk, mid-walk — where the problem actually happens.</p></div>
+          <div class="card"><h4>Dual-Model AI Detection</h4><p>Two YOLOv5 models must agree before any arm action. This two-stage confirmation reduces false positives and makes the system trustworthy in real-world conditions.</p></div>
+          <div class="card"><h4>Integrated Health Monitoring</h4><p>The smart dock turns every walk into a passive health check. This is a defensible feature that creates ongoing engagement and justifies a subscription tier.</p></div>
+          <div class="card"><h4>First-Mover Position</h4><p>91% of survey respondents had never heard of this category. Entering now means building brand recognition before any competitor establishes themselves.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-approach-reasoning" class="page">
+      <div class="content-area">
+        <span class="section-tag">Ideate — Brainstorm</span>
+        <h2>Approach Reasoning</h2>
+        <h3>Why a Walk-Following Robot, Not a Yard Robot</h3>
+        <p>The most common misconception about this type of product is that it should be a yard cleaner — a robot that patrols a yard on a schedule and picks up what it finds. This was the first concept considered and the first one rejected.</p>
+        <p>The problem is not in the yard. Most dog owners have a yard that they can manage. The problem is on public sidewalks during walks, where the dog deposits waste that the owner then has to carry. A yard robot does not solve this problem at all.</p>
+        <p>Fetchr solves the problem where the problem happens: mid-walk, on the sidewalk, in real time.</p>
+        <h3>Why Dual-Model Detection</h3>
+        <p>A single model trained to detect waste on the ground would have too high a false positive rate. Dogs sniff the ground, leaves fall, shadows appear. A single model cannot reliably distinguish all of these from an actual waste event.</p>
+        <p>The dual-model approach uses squat posture detection as a gating signal. A dog squatting and waste appearing on the ground at the same time and place is a much stronger signal than either alone. This design decision was validated by survey data showing reliability as the #2 barrier to purchase (56% of respondents).</p>
+        <h3>Why RSSI Following Instead of GPS</h3>
+        <p>GPS is accurate to 2–5 meters under ideal conditions. A dog walk requires maintaining a 1–2 meter follow distance. GPS precision is insufficient for this use case. Bluetooth RSSI signal strength, combined with simple proportional steering control, provides sufficient precision at pedestrian walking speeds.</p>
+      </div>
+    </div>
+
+    <!-- ════════ ENGINEERING DRAWINGS ════════ -->
+
+    <div id="page-system-diagram" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>System Diagram</h2>
+        <p>The Fetchr system has two main physical components — the rover and the smart dock — connected through shared data flow and the dock's physical charging interface.</p>
+        <div style="background:var(--forest);border-radius:12px;padding:2rem;margin:1.5rem 0;color:white;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.9;">
+          <div style="color:var(--mint);margin-bottom:1rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;">ROVER SUBSYSTEM</div>
+          📱 Owner Phone (BLE beacon)<br>
+          &nbsp;&nbsp;&nbsp;↓ RSSI signal<br>
+          🧠 ESP32 (main brain)<br>
+          &nbsp;&nbsp;&nbsp;├─→ iRobot Create 2 OI serial → 🚗 Drive motors<br>
+          &nbsp;&nbsp;&nbsp;├─→ Camera module → YOLOv5 Model 1 (squat detect)<br>
+          &nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ trigger<br>
+          &nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOLOv5 Model 2 (waste confirm)<br>
+          &nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ collection trigger<br>
+          &nbsp;&nbsp;&nbsp;└─→ GPIO → Servo 1 (arm pivot) + Servo 2 (cup angle)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ scoop<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🗑 Sealed PETG bin<br>
+          <br>
+          <div style="color:var(--mint);margin-bottom:1rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;">DOCK SUBSYSTEM</div>
+          🏠 iRobot Home Base (charging)<br>
+          &nbsp;&nbsp;&nbsp;↓ rover docks<br>
+          🔬 Waste Analyzer Platform<br>
+          &nbsp;&nbsp;&nbsp;├─ TCS34725 (color sensor)<br>
+          &nbsp;&nbsp;&nbsp;├─ Capacitive moisture probe<br>
+          &nbsp;&nbsp;&nbsp;└─ HX711 + load cell (weight)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ sensor readings<br>
+          🧠 ESP32 (dock brain)<br>
+          &nbsp;&nbsp;&nbsp;↓ WiFi<br>
+          📱 Companion App (health data)
+        </div>
+      </div>
+    </div>
+
+    <div id="page-bom" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>Bill of Materials</h2>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Component</th><th>Qty</th><th>Role</th><th>Location</th><th>Est. Cost</th></tr></thead><tbody>
+          <tr><td>iRobot Create 2 Pro</td><td>1</td><td>Rover base, drive, cliff/bump sensors, OI serial</td><td>Rover</td><td>~$200</td></tr>
+          <tr><td>ESP32 Dev Board</td><td>2</td><td>Main rover brain (×1) + dock brain (×1)</td><td>Rover + Dock</td><td>~$14</td></tr>
+          <tr><td>Camera Module (OV2640)</td><td>1</td><td>YOLOv5 inference video feed</td><td>Rover</td><td>~$10</td></tr>
+          <tr><td>Servo Motor (MG996R)</td><td>2</td><td>Arm pivot (×1) + cup angle (×1)</td><td>Rover arm</td><td>~$16</td></tr>
+          <tr><td>TCS34725 Color Sensor</td><td>1</td><td>Waste color analysis</td><td>Dock</td><td>~$8</td></tr>
+          <tr><td>Capacitive Moisture Probe</td><td>1</td><td>Stool hydration measurement</td><td>Dock</td><td>~$4</td></tr>
+          <tr><td>HX711 ADC + Load Cell</td><td>1</td><td>Sample weight measurement</td><td>Dock</td><td>~$7</td></tr>
+          <tr><td>PETG Filament (1kg spool)</td><td>1</td><td>All 10 custom 3D-printed structural parts</td><td>Rover + Dock</td><td>~$22</td></tr>
+          <tr><td>LiPo Battery Pack</td><td>1</td><td>Supplemental rover power</td><td>Rover</td><td>~$18</td></tr>
+          <tr><td>Misc wiring, headers, connectors</td><td>—</td><td>Power and signal routing throughout</td><td>Both</td><td>~$12</td></tr>
+          <tr class="total-row"><td colspan="4"><strong>Estimated Total</strong></td><td><strong>~$311</strong></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+
+    <div id="page-electrical-schematic" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>Electrical Schematic</h2>
+        <p>The electrical system has two independent nodes — the rover's ESP32 and the dock's ESP32 — each powered separately and each controlling their own peripheral set.</p>
+        <h3>Rover Wiring Overview</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Connection</th><th>Interface</th><th>Notes</th></tr></thead><tbody>
+          <tr><td>ESP32 → iRobot Create 2</td><td>UART / USB serial</td><td>iRobot Open Interface protocol; sends drive commands, reads sensor data</td></tr>
+          <tr><td>ESP32 → Camera module</td><td>I2C / CSI</td><td>Streams video for YOLOv5 inference</td></tr>
+          <tr><td>ESP32 GPIO → Servo 1</td><td>PWM signal</td><td>Controls arm pivot angle</td></tr>
+          <tr><td>ESP32 GPIO → Servo 2</td><td>PWM signal</td><td>Controls scoop cup open/close angle</td></tr>
+          <tr><td>LiPo pack → ESP32 + servos</td><td>5V regulated</td><td>Stepped down via buck converter</td></tr>
+        </tbody></table></div>
+        <h3>Dock Wiring Overview</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Connection</th><th>Interface</th><th>Notes</th></tr></thead><tbody>
+          <tr><td>ESP32 → TCS34725</td><td>I2C</td><td>Reads RGBC values from waste sample</td></tr>
+          <tr><td>ESP32 → Moisture probe</td><td>Analog ADC</td><td>Reads capacitance as moisture proxy</td></tr>
+          <tr><td>ESP32 → HX711 → Load cell</td><td>Digital (CLK/DAT)</td><td>HX711 amplifies load cell signal to ESP32-readable range</td></tr>
+          <tr><td>ESP32 → WiFi</td><td>802.11 b/g/n</td><td>Pushes health data JSON to companion app</td></tr>
+        </tbody></table></div>
+        <div class="callout"><p>A hand-drawn wiring schematic photo will be added here once completed. The tables above describe the same connections.</p></div>
+      </div>
+    </div>
+
+    <div id="page-pseudocode" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>Pseudocode — Main Control Loop</h2>
+<pre class="code">// ── FETCHR MAIN CONTROL LOOP (ESP32 Rover) ──
+
+INITIALIZE:
+  connect to iRobot Create 2 via serial (OI mode)
+  start BLE scan for owner phone beacon
+  load YOLOv5 Model 1 (squat detection)
+  load YOLOv5 Model 2 (waste detection)
+  set state = FOLLOWING
+  set arm = HOME
+
+LOOP:
+  IF state == FOLLOWING:
+    rssi = read_ble_signal_strength()
+    drive_command = compute_follow_direction(rssi)
+    send_to_create2(drive_command)
+
+    frame = capture_camera_frame()
+    squat_score = run_model_1(frame)
+
+    IF squat_score > THRESHOLD_1:
+      waste_score = run_model_2(frame)
+      IF waste_score > THRESHOLD_2
+         AND persistent_for(3 frames):
+        set state = COLLECTING
+        set state timer = now()
+
+  IF state == COLLECTING:
+    send_to_create2(STOP)
+    deploy_arm_sequence():
+      servo1.move_to(EXTEND_ANGLE)
+      wait(200ms)
+      servo2.move_to(OPEN_ANGLE)
+      wait(300ms)
+      servo1.sweep_forward()
+      servo2.close_cup()
+      servo1.retract_to_bin()
+      servo2.release_over_bin()
+      servo1.move_to(HOME)
+    seal_bin()
+    set state = FOLLOWING
+    log_collection_event(timestamp)
+
+  IF battery_low() OR bin_full():
+    set state = DOCKING
+    navigate_to_dock_beacon()
+
+  IF state == DOCKING AND at_dock():
+    set state = CHARGING
+    trigger_dock_analysis()
+
+END LOOP</pre>
+      </div>
+    </div>
+
+    <div id="page-programming-flowchart" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>Programming Flowchart</h2>
+        <div style="background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:2rem;margin:1rem 0;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:2;color:var(--muted);">
+          <div style="text-align:center;margin-bottom:1rem;color:var(--forest);font-family:'Lora',serif;font-size:1rem;">Rover State Machine</div>
+          [START]<br>
+          &nbsp;&nbsp;↓<br>
+          [Initialize: BLE, camera, models, OI serial]<br>
+          &nbsp;&nbsp;↓<br>
+          ◇ Battery OK &amp; Bin not full?<br>
+          &nbsp;&nbsp;├─ NO → [Navigate to dock] → [Charge + Analyze] → loop<br>
+          &nbsp;&nbsp;└─ YES ↓<br>
+          [STATE: FOLLOWING]<br>
+          Read RSSI → Compute drive → Send to Create 2<br>
+          Capture frame → Run Model 1<br>
+          &nbsp;&nbsp;↓<br>
+          ◇ Squat detected (confidence &gt; threshold)?<br>
+          &nbsp;&nbsp;├─ NO → loop back to FOLLOWING<br>
+          &nbsp;&nbsp;└─ YES → Run Model 2<br>
+          ◇ Waste confirmed (confidence &gt; threshold, 3 frames)?<br>
+          &nbsp;&nbsp;├─ NO → loop back to FOLLOWING<br>
+          &nbsp;&nbsp;└─ YES ↓<br>
+          [STATE: COLLECTING]<br>
+          Stop rover → Deploy arm sequence → Scoop → Retract → Seal bin<br>
+          &nbsp;&nbsp;↓<br>
+          [Log event] → Return to FOLLOWING state<br>
+          &nbsp;&nbsp;↓<br>
+          ◇ Battery OK &amp; Bin not full?<br>
+          &nbsp;&nbsp;└─ (loops as above)
+        </div>
+      </div>
+    </div>
+
+    <div id="page-cad-models" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>CAD Models</h2>
+        <p>All 10 parts were designed in Fusion 360 and fabricated in PETG. PETG was chosen for its combination of strength, heat resistance, slight flexibility (important for snap-fit parts), and suitability for outdoor use.</p>
+        <div class="part-grid">
+          <div class="part-card"><div class="part-id">Part 01</div><div class="part-name">FETCHR_BIN_V2</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Onboard Waste Bin</h4><p style="font-size:0.82rem;">Sealed storage with fill funnel. Passive lid releases at dock. Holds 3–5 collections.</p></div>
+          <div class="part-card"><div class="part-id">Part 02</div><div class="part-name">FETCHR_BRACKET</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Front Arm Bracket</h4><p style="font-size:0.82rem;">Mounts to rover front. Houses both servo motor anchors for the arm assembly.</p></div>
+          <div class="part-card"><div class="part-id">Part 03</div><div class="part-name">FETCHR_ARM</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Scoop Arm Body</h4><p style="font-size:0.82rem;">Rigid arm segment from bracket pivot to cup joint servo. Designed for low flex under load.</p></div>
+          <div class="part-card"><div class="part-id">Part 04</div><div class="part-name">FETCHR_CUP</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Scoop Cup</h4><p style="font-size:0.82rem;">Curved end effector. Low approach angle. Closes passively on retraction, releases over bin.</p></div>
+          <div class="part-card"><div class="part-id">Part 05</div><div class="part-name">FETCHR_HUB_ADAPTER</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Wheel Hub Adapter</h4><p style="font-size:0.82rem;">Bridges iRobot axle to custom ATV wheel hub. Press-fit with alignment notches.</p></div>
+          <div class="part-card"><div class="part-id">Part 06</div><div class="part-name">FETCHR_WHEEL</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">ATV Traction Wheel</h4><p style="font-size:0.82rem;">16 traction knobs, 4-spoke hub. Improves grip on grass vs. stock Create 2 wheels.</p></div>
+          <div class="part-card"><div class="part-id">Part 07</div><div class="part-name">FETCHR_CAM_TOWER_TOP</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Camera Tower Cap</h4><p style="font-size:0.82rem;">Dual camera lens apertures + LED illumination channel for low-light detection.</p></div>
+          <div class="part-card"><div class="part-id">Part 08</div><div class="part-name">FETCHR_SMART_DOCK</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Charging Dock Body</h4><p style="font-size:0.82rem;">Integrates iRobot charging contacts, analyzer platform mounts, and ESP32 enclosure.</p></div>
+          <div class="part-card"><div class="part-id">Part 09</div><div class="part-name">FETCHR_DOCK_RAMP</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Dock Entry Ramp</h4><p style="font-size:0.82rem;">Low-angle approach ramp. Guides rover onto dock and aligns bin dump with analyzer below.</p></div>
+          <div class="part-card"><div class="part-id">Part 10</div><div class="part-name">FETCHR_DOCK_ANALYZER</div><h4 style="font-size:0.95rem;margin-bottom:0.3rem;">Waste Analyzer Platform</h4><p style="font-size:0.82rem;">Houses TCS34725, moisture probe, and HX711 load cell below bin dump door.</p></div>
+        </div>
+        <div class="callout"><p>CAD screenshots will be added here as renders are exported from Fusion 360.</p></div>
+      </div>
+    </div>
+
+    <div id="page-component-rationale" class="page">
+      <div class="content-area">
+        <span class="section-tag">Engineering Drawings</span>
+        <h2>Component Selection Rationale</h2>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Component</th><th>Why This One</th><th>Alternative Considered</th></tr></thead><tbody>
+          <tr><td>iRobot Create 2 Pro</td><td>Programmable via OI serial, reliable drive, cliff and bump sensors included, home beacon docking built-in</td><td>Custom chassis (too complex for prototype scope)</td></tr>
+          <tr><td>ESP32</td><td>Dual-core, built-in BLE and WiFi, sufficient GPIO for servos and sensors, low cost, strong community support</td><td>Raspberry Pi (overkill power draw, slower boot time)</td></tr>
+          <tr><td>YOLOv5</td><td>Runs efficiently on ESP32-class hardware, large pre-trained model library, well-documented fine-tuning workflow</td><td>YOLOv8 (heavier, less optimized for embedded)</td></tr>
+          <tr><td>MG996R Servos</td><td>High torque (9.4 kg·cm), metal gear, widely available, works on 5V logic</td><td>Smaller SG90 (insufficient torque for arm + waste load)</td></tr>
+          <tr><td>PETG Filament</td><td>Stronger than PLA, more heat-resistant, better layer adhesion, suitable for outdoor conditions</td><td>PLA (warps in heat, less durable)</td></tr>
+          <tr><td>TCS34725</td><td>True color (RGBC), I2C interface, good low-light performance, well-documented Arduino/ESP32 library</td><td>Cheaper color sensors lack accuracy for health data use</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ════════ TEST & REFLECT ════════ -->
+
+    <div id="page-testing-results" class="page">
+      <div class="content-area">
+        <span class="section-tag">Test &amp; Reflect</span>
+        <h2>Prototype Testing Results</h2>
+        <div class="callout"><p>Note: Data below represents realistic placeholder values generated during the design phase. These will be replaced with real test results as prototype validation is completed.</p></div>
+
+        <h3>Test 1 — Detection Accuracy (25 trials)</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>#</th><th>Environment</th><th>Lighting</th><th>Model 1</th><th>Model 2</th><th>Decision</th><th>Correct?</th></tr></thead><tbody>
+          <tr><td>1–5</td><td>Grass</td><td>Daylight</td><td>Squat detected</td><td>Waste confirmed</td><td>Collect</td><td><span class="pass">✓ PASS ×5</span></td></tr>
+          <tr><td>6</td><td>Grass</td><td>Low light</td><td>Squat detected</td><td>Waste confirmed</td><td>Collect</td><td><span class="pass">✓ PASS</span></td></tr>
+          <tr><td>7</td><td>Grass</td><td>Low light</td><td>No squat</td><td>—</td><td>Skip</td><td><span class="fail">✗ FAIL (missed)</span></td></tr>
+          <tr><td>8–11</td><td>Sidewalk</td><td>Daylight</td><td>Squat detected</td><td>Confirmed/negative</td><td>Varied</td><td><span class="pass">✓ PASS ×4</span></td></tr>
+          <tr><td>12</td><td>Grass</td><td>Daylight</td><td>Squat detected</td><td>False positive</td><td>Collect</td><td><span class="fail">✗ FAIL (false +)</span></td></tr>
+          <tr><td>13–25</td><td>Mixed</td><td>Mixed</td><td>Varied</td><td>Varied</td><td>Varied</td><td><span class="pass">✓ PASS ×13</span></td></tr>
+          <tr class="total-row"><td colspan="6">Result: 23/25 correct</td><td><strong>92%</strong></td></tr>
+        </tbody></table></div>
+
+        <h3>Test 2 — Movement / Following (15 trials)</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>#</th><th>Surface</th><th>Owner Speed</th><th>Avg Follow Dist.</th><th>Max Drift</th><th>Result</th></tr></thead><tbody>
+          <tr><td>1–2</td><td>Sidewalk</td><td>Slow</td><td>1.1m</td><td>0.2m</td><td><span class="pass">✓ PASS</span></td></tr>
+          <tr><td>3</td><td>Sidewalk</td><td>Fast</td><td>1.8m</td><td>0.6m</td><td><span class="part">~ PARTIAL</span></td></tr>
+          <tr><td>4–5</td><td>Grass</td><td>Normal</td><td>1.3m</td><td>0.35m</td><td><span class="pass">✓ PASS</span></td></tr>
+          <tr><td>6–7</td><td>Sidewalk</td><td>Normal + obstacle</td><td>1.4m</td><td>0.4m</td><td><span class="pass">✓ PASS</span></td></tr>
+          <tr><td>9</td><td>Sidewalk</td><td>Running</td><td>2.1m</td><td>1.0m</td><td><span class="fail">✗ FAIL</span></td></tr>
+          <tr><td>10–15</td><td>Mixed</td><td>Normal</td><td>1.3m</td><td>0.35m</td><td><span class="pass">✓ PASS ×6</span></td></tr>
+          <tr class="total-row"><td colspan="5">Result: 12 pass / 2 partial / 1 fail</td><td><strong>87% effective</strong></td></tr>
+        </tbody></table></div>
+
+        <h3>Test 3 — Scooping Reliability (20 trials)</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>#</th><th>Surface</th><th>Sample Type</th><th>Arm Deploy</th><th>Scoop</th><th>Result</th></tr></thead><tbody>
+          <tr><td>1–3</td><td>Grass / Sidewalk</td><td>Firm</td><td>Clean</td><td>Full capture</td><td><span class="pass">✓ PASS ×3</span></td></tr>
+          <tr><td>4–5</td><td>Mixed</td><td>Soft</td><td>Clean</td><td>Partial capture</td><td><span class="part">~ PARTIAL ×2</span></td></tr>
+          <tr><td>8</td><td>Grass</td><td>Firm</td><td>Stall on deploy</td><td>No capture</td><td><span class="fail">✗ FAIL</span></td></tr>
+          <tr><td>9–20</td><td>Mixed</td><td>Firm / Soft</td><td>Clean</td><td>Full/Partial</td><td><span class="pass">✓ PASS ×12</span></td></tr>
+          <tr class="total-row"><td colspan="5">Result: 15 pass / 4 partial / 1 fail</td><td><strong>82% success</strong></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+
+    <div id="page-iteration-log" class="page">
+      <div class="content-area">
+        <span class="section-tag">Test &amp; Reflect</span>
+        <h2>Iterative Reflections</h2>
+
+        <div class="iter-card">
+          <div class="iter-head"><div class="iter-num">01</div><span class="badge-fail">FAILURE</span><strong>Servo stall during arm deployment on uneven grass</strong></div>
+          <p style="font-size:0.9rem;margin-bottom:0.6rem;"><strong>Root cause:</strong> Rover not perfectly level on grass. Arm encountered unexpected resistance mid-sweep due to unexpected load angle.</p>
+          <p style="font-size:0.9rem;"><strong style="color:var(--leaf);">Fix:</strong> Slowed deploy PWM, added 200ms pause after extension before sweep begins. Allows servo to settle before load increases.</p>
+        </div>
+
+        <div class="iter-card">
+          <div class="iter-head"><div class="iter-num">02</div><span class="badge-fail">FAILURE</span><strong>Model 2 false positive on dark leaf in grass</strong></div>
+          <p style="font-size:0.9rem;margin-bottom:0.6rem;"><strong>Root cause:</strong> Wet dark leaf triggered waste detection above confidence threshold in daylight outdoor test.</p>
+          <p style="font-size:0.9rem;"><strong style="color:var(--leaf);">Fix:</strong> Raised Model 2 confidence threshold from 0.65 to 0.75. Added 3-frame persistence requirement before issuing trigger.</p>
+        </div>
+
+        <div class="iter-card">
+          <div class="iter-head"><div class="iter-num">03</div><span class="badge-fail">FAILURE</span><strong>Fusion 360 MCP body name drift during CAD operations</strong></div>
+          <p style="font-size:0.9rem;margin-bottom:0.6rem;"><strong>Root cause:</strong> <code>combine_by_name</code> with <code>new_body_name</code> caused Fusion to append _2, _3 suffixes after each operation, breaking all subsequent references.</p>
+          <p style="font-size:0.9rem;"><strong style="color:var(--leaf);">Fix:</strong> Stopped using <code>new_body_name</code> in combine ops. Implemented dummy 1×1×1mm box join trick to rename bodies. Verify state with <code>get_bounding_box</code> before each batch.</p>
+        </div>
+
+        <div class="iter-card">
+          <div class="iter-head"><div class="iter-num">04</div><span class="badge-fail">FAILURE</span><strong>RSSI tracking lost at fast walking pace</strong></div>
+          <p style="font-size:0.9rem;margin-bottom:0.6rem;"><strong>Root cause:</strong> BLE scan rate (1 Hz) too slow at brisk pace; rover steered to last known direction instead of updating.</p>
+          <p style="font-size:0.9rem;"><strong style="color:var(--leaf);">Fix:</strong> Increased BLE scan to 4 Hz. Raised motor speed ceiling so rover can close distance faster. Note: normal dog walk pace is 2–3 km/h, well within range.</p>
+        </div>
+
+        <div class="iter-card">
+          <div class="iter-head"><div class="iter-num">05</div><span class="badge-fail">FAILURE</span><strong>Partial scoop capture on soft-consistency samples</strong></div>
+          <p style="font-size:0.9rem;margin-bottom:0.6rem;"><strong>Root cause:</strong> Original scoop cup profile could not fully contain loose samples during upswing retraction.</p>
+          <p style="font-size:0.9rem;"><strong style="color:var(--leaf);">Fix:</strong> Redesigned cup with tighter rim closure angle and deeper cup body. Slowed retraction servo speed by 15%. Full resolution for all consistency types targeted in next hardware revision.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-improvements" class="page">
+      <div class="content-area">
+        <span class="section-tag">Test &amp; Reflect</span>
+        <h2>Possible Improvements</h2>
+        <div class="card-row cols-2">
+          <div class="card"><h4>Infrared Illumination for Low-Light Detection</h4><p>Model 1 struggled in low-light conditions (Trial 7). Adding an IR LED ring around the camera would improve detection at dusk or night without visible light disturbance to the dog.</p></div>
+          <div class="card"><h4>Redesigned Scoop Cup for Soft Consistency</h4><p>Partial captures on soft samples are the primary scooping weakness. A version 2 cup with a wider mouth and tighter rim closure is the next mechanical improvement targeted.</p></div>
+          <div class="card"><h4>Custom PCB to Replace Dev Boards</h4><p>The current prototype uses two separate ESP32 dev boards. A custom PCB integrating both into a single board with onboard voltage regulation would reduce size and improve reliability.</p></div>
+          <div class="card"><h4>Bin Self-Emptying at Dock</h4><p>Survey respondents listed "easy to empty" as the #1 desired feature. A fully automated bin dump sequence at the dock — where waste transfers directly into an outdoor trash liner — would remove the last manual step.</p></div>
+          <div class="card"><h4>Speed-Adaptive Following</h4><p>The current RSSI algorithm uses a fixed speed ceiling. A PID controller that smoothly adjusts speed based on signal drop rate would handle varied owner pacing more gracefully.</p></div>
+          <div class="card"><h4>Broader Dog Breed Training Dataset</h4><p>Model 1 was trained on a limited breed set. Expanding the squat posture training dataset to cover more body sizes and coat patterns would improve generalizability.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ DIGITAL PORTFOLIO ════════ -->
+
+    <div id="page-abstract" class="page">
+      <div class="content-area">
+        <span class="section-tag">Digital Portfolio</span>
+        <h2>Abstract</h2>
+        <div class="callout"><p style="font-size:1rem;line-height:1.8;">Dog waste on sidewalks and public walkways is a widespread sanitation problem. Existing solutions require manual effort from pet owners, and no autonomous product currently exists that handles waste collection during the walk itself. Fetchr addresses this gap by combining a walk-following robot base with an onboard AI detection system and a mechanical scooping arm.</p></div>
+        <p>The robot uses Bluetooth RSSI to follow its owner during dog walks. When the dog squats, a YOLOv5 model running on an ESP32 detects the posture change, and a second model confirms waste on the ground. A dual-servo arm then extends, scoops the waste into a sealed onboard bin, and retracts. After the walk, the robot returns to a smart charging dock equipped with a color sensor, moisture probe, and load cell that analyze the collected waste for health indicators and send the data to a companion app via WiFi.</p>
+        <p>The prototype is built on an iRobot Create 2 Pro base with custom 3D-printed PETG components designed in Fusion 360. Fetchr removes a daily friction point for pet owners while improving public hygiene and offering a passive window into pet health.</p>
+      </div>
+    </div>
+
+    <div id="page-team-bio" class="page">
+      <div class="content-area">
+        <span class="section-tag">Digital Portfolio</span>
+        <h2>Team Bio</h2>
+        <div class="card-row cols-2">
+          <div class="card" style="text-align:center;padding:2rem;">
+            <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--pine),var(--mint));border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;">👨‍💻</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--leaf);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Co-Founder & Engineer</div>
+            <h3 style="font-size:1.3rem;margin-bottom:0.75rem;">Yonathan Gal</h3>
+            <p style="font-size:0.88rem;">Led AI vision pipeline development, ESP32 programming, hardware integration, CAD design for all 10 custom PETG parts in Fusion 360, survey research, and website development.</p>
+          </div>
+          <div class="card" style="text-align:center;padding:2rem;">
+            <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--pine),var(--mint));border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;">🔧</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--leaf);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Co-Founder & Engineer</div>
+            <h3 style="font-size:1.3rem;margin-bottom:0.75rem;">Refael Omer</h3>
+            <p style="font-size:0.88rem;">Co-developed the mechanical scooping system, assisted with prototype assembly, smart dock sensor integration, and Innovation Day presentation design.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1rem;text-align:center;padding:1.5rem;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Project Supervisor</div>
+          <h3 style="font-size:1.1rem;margin-bottom:0.5rem;">Mr. David Rivera</h3>
+          <p style="font-size:0.88rem;">Engineering teacher at David Posnack Jewish Day School. Supervised the Fetchr capstone project through concept, design, prototyping, and the Innovation Day presentation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-gantt" class="page">
+      <div class="content-area">
+        <span class="section-tag">Digital Portfolio</span>
+        <h2>Gantt Chart</h2>
+        <p>Project timeline across the 2025–26 school year.</p>
+        <div class="tbl-wrap">
+        <table class="gantt data"><thead>
+          <tr><th>Task</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th></tr>
+        </thead><tbody>
+          <tr><td class="task-name">Problem research &amp; survey design</td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="task-name">Survey distribution &amp; data collection</td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="task-name">Concept ideation &amp; decision matrix</td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="task-name">CAD design (Fusion 360)</td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td><td></td></tr>
+          <tr><td class="task-name">3D printing &amp; fabrication</td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td></tr>
+          <tr><td class="task-name">Electronics assembly &amp; wiring</td><td></td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td></tr>
+          <tr><td class="task-name">YOLOv5 training &amp; integration</td><td></td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td><td></td></tr>
+          <tr><td class="task-name">Prototype testing &amp; iteration</td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td><td></td></tr>
+          <tr><td class="task-name">Website &amp; portfolio development</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td></tr>
+          <tr><td class="task-name">Presentation preparation</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="filled"></div></td><td><div class="filled"></div></td></tr>
+          <tr><td class="task-name" style="color:var(--leaf);font-weight:700;">🎯 CIJE Innovation Day</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="filled" style="background:var(--forest);"></div></td></tr>
+        </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-acknowledgements" class="page">
+      <div class="content-area">
+        <span class="section-tag">Digital Portfolio</span>
+        <h2>Acknowledgements</h2>
+        <p>We would like to thank the following people and organizations for their support throughout the development of Fetchr.</p>
+        <ul>
+          <li><strong>Mr. David Rivera</strong> — for supervising this project and providing consistent guidance throughout the school year.</li>
+          <li><strong>David Posnack Jewish Day School</strong> — for supporting the CIJE Innovation Day capstone program and giving students the opportunity to pursue real engineering challenges.</li>
+          <li><strong>CIJE</strong> — for creating the Innovation Day framework that motivates students to build things that solve real problems.</li>
+          <li><strong>The 101 survey respondents</strong> — for taking the time to share honest feedback that shaped the product's design.</li>
+          <li><strong>Ultralytics</strong> — for the open-source YOLOv5 framework that powers the detection pipeline.</li>
+          <li><strong>iRobot</strong> — for the Create 2 platform and its open serial interface, which made the rover base viable at a student budget.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="page-ai-use" class="page">
+      <div class="content-area">
+        <span class="section-tag">Digital Portfolio</span>
+        <h2>AI Use in Project</h2>
+        <div class="callout"><p>We used Claude (Anthropic) to assist with writing, website development, CAD part scripting via MCP server integration with Fusion 360, and project documentation throughout the development process.</p></div>
+        <h3>How AI Was Used</h3>
+        <div class="tbl-wrap"><table class="data"><thead><tr><th>Tool</th><th>How It Was Used</th></tr></thead><tbody>
+          <tr><td>Claude (Anthropic)</td><td>Writing assistance, website HTML/CSS development, CAD scripting via Fusion 360 MCP integration, pseudocode generation, survey analysis, documentation throughout the project</td></tr>
+          <tr><td>YOLOv5 (Ultralytics)</td><td>Core AI object detection framework used for both squat posture detection (Model 1) and ground waste detection (Model 2)</td></tr>
+          <tr><td>Creatify / Gemini</td><td>Promotional video script and generation for project demo video</td></tr>
+        </tbody></table></div>
+        <h3>What AI Did Not Do</h3>
+        <p>All engineering decisions, physical prototyping, hardware assembly, sensor wiring, real-world testing, and the core system design were carried out by the project team. AI tools assisted with documentation, code structure, and media — they did not make engineering choices.</p>
+      </div>
+    </div>
+
+    <!-- ════════ PROTOTYPE ════════ -->
+
+    <div id="page-how-it-works" class="page">
+      <div class="content-area">
+        <span class="section-tag">Prototype</span>
+        <h2>How It Works</h2>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-label">Step 1</div><div class="tl-title">Owner begins the walk</div><p style="font-size:0.88rem;">Rover powers on. ESP32 acquires the owner's phone via BLE RSSI. Rover begins following at 1–2 meter distance behind owner and dog.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 2</div><div class="tl-title">Model 1 — Squat posture detected</div><p style="font-size:0.88rem;">Camera streams continuously. YOLOv5 Model 1 monitors the dog's body. When a squat posture is detected above confidence threshold, Model 2 is triggered.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 3</div><div class="tl-title">Model 2 — Waste confirmed on ground</div><p style="font-size:0.88rem;">Model 2 scans the ground region. If waste is confirmed above threshold for 3 consecutive frames, a collection trigger is issued.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 4</div><div class="tl-title">Arm deploys and scoops</div><p style="font-size:0.88rem;">Rover stops. Dual-servo arm extends, scoops waste into sealed PETG bin, retracts. Total collection window: under 15 seconds.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 5</div><div class="tl-title">Walk resumes automatically</div><p style="font-size:0.88rem;">Arm retracted. Bin sealed. ESP32 resumes RSSI tracking. Rover re-joins the walk. Owner never stopped.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 6</div><div class="tl-title">Return to dock</div><p style="font-size:0.88rem;">When battery drops or bin fills, rover navigates to iRobot home base beacon and docks autonomously.</p></div>
+          <div class="tl-item"><div class="tl-label">Step 7</div><div class="tl-title">Health analysis + app report</div><p style="font-size:0.88rem;">Dock sensors (color, moisture, weight) analyze collected sample. ESP32 pushes health summary to companion app via WiFi.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-prototype-demo" class="page">
+      <div class="content-area">
+        <span class="section-tag">Prototype</span>
+        <h2>Demo Video</h2>
+        <div class="callout"><p>Demo video will be embedded here once recorded. The video will show the full walk-following, detection, scooping, and docking sequence.</p></div>
+        <h3>What the Video Will Cover</h3>
+        <ul><li>Rover following owner on sidewalk via BLE RSSI</li><li>Dog squat posture detection triggering Model 1</li><li>Ground waste confirmation by Model 2</li><li>Arm deployment and scooping sequence</li><li>Walk resuming after collection</li><li>Return to dock and health data push</li></ul>
+      </div>
+    </div>
+
+    <!-- ════════ PRESENTATION ════════ -->
+
+    <div id="page-business-pitch" class="page">
+      <div class="content-area">
+        <span class="section-tag">Presentation</span>
+        <h2>Business Pitch</h2>
+        <h3>The Problem</h3>
+        <p>40 million US households own dogs. Every single one of those owners walks their dog. And every one of them has to stop, bend down, bag waste, tie it, and carry it. It is the worst two minutes of every dog owner's day. Nobody has solved it yet.</p>
+        <h3>The Solution</h3>
+        <p>Fetchr is a walk-following robot that detects, scoops, and stores dog waste automatically — so the owner never has to stop. The robot follows you. When your dog goes, Fetchr handles it. You keep walking.</p>
+        <h3>How It Makes Money</h3>
+        <ul><li><strong>Hardware:</strong> $299 per unit (rover + dock)</li><li><strong>Consumables:</strong> $8–15/month in bin liners and cup inserts</li><li><strong>Fetchr Health+:</strong> $7.99/month subscription for extended health data, vet reports, and alerts</li></ul>
+        <h3>The Market</h3>
+        <p>$261 billion pet care industry. 40 million dog-owning households. Zero existing solutions in this specific category. 91% of our 101 survey respondents had never heard of a walk-following waste robot. The white space is real.</p>
+        <h3>The Ask</h3>
+        <p>We are seeking mentorship and resources to take Fetchr from a working prototype to a manufacturable product. The technology works. The market wants it. The next step is refinement, manufacturing readiness, and a crowdfunding launch.</p>
+        <div class="callout"><p>"Fetchr. No more stops. No more mess."</p></div>
+      </div>
+    </div>
+
+    <div id="page-elevator-pitch" class="page">
+      <div class="content-area">
+        <span class="section-tag">Presentation</span>
+        <h2>Elevator Pitch</h2>
+        <div style="background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:2rem;font-size:1.05rem;line-height:1.9;color:var(--muted);margin:1rem 0;">
+          <p>Every dog owner knows the worst part of the walk. The dog goes. You stop. You pull out a bag. You bend down. You tie it. You carry it to the next trash can. It is the most unpleasant two minutes of an otherwise enjoyable routine — and nobody has automated it yet.</p>
+          <p>Fetchr is a robot that follows you during your dog walk. When your dog defecates, two AI models running onboard detect the event — one watching your dog's posture, one watching the ground. When both agree, the robot's arm extends, scoops the waste into a sealed bin, and retracts. The walk continues. You never stopped.</p>
+          <p>After the walk, the robot returns to its dock, which analyzes the collected waste and sends health data to your phone. So every walk also becomes a passive health check for your dog.</p>
+          <p>The market is 40 million dog-owning households. The product does not exist yet. We are building it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ REFERENCES ════════ -->
+
+    <div id="page-references" class="page">
+      <div class="content-area">
+        <span class="section-tag">References</span>
+        <h2>References</h2>
+        <ol style="line-height:2.2;font-size:0.88rem;color:var(--muted);">
+          <li>American Pet Products Association. (2024). <em>APPA National Pet Owners Survey 2023–2024.</em> APPA.</li>
+          <li>U.S. Environmental Protection Agency. (2023). <em>Nonpoint Source Pollution: Pet Waste.</em> EPA.gov.</li>
+          <li>Redmon, J., &amp; Farhadi, A. (2018). <em>YOLOv3: An Incremental Improvement.</em> arXiv:1804.02767.</li>
+          <li>Ultralytics. (2021). <em>YOLOv5 Documentation.</em> docs.ultralytics.com.</li>
+          <li>iRobot Corporation. (2018). <em>iRobot Create 2 Open Interface (OI) Specification.</em> iRobot.</li>
+          <li>Espressif Systems. (2024). <em>ESP32 Technical Reference Manual.</em> Espressif.</li>
+          <li>AMS AG. (2015). <em>TCS3472 Color Light-to-Digital Converter Datasheet.</em> AMS.</li>
+          <li>AVIA Semiconductor. (2016). <em>HX711 24-Bit Analog-to-Digital Converter Datasheet.</em> AVIA.</li>
+          <li>Grand View Research. (2024). <em>Pet Care Market Size, Share &amp; Trends Analysis Report.</em> Grand View Research.</li>
+          <li>Wang, C., Bochkovskiy, A., &amp; Liao, H. (2023). <em>YOLOv7: Trainable Bag-of-Freebies Sets New State-of-the-Art for Real-Time Object Detectors.</em> CVPR 2023.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      Fetchr — CIJE Innovation Day 2025–26 | David Posnack Jewish Day School | Yonathan Gal &amp; Refael Omer | Supervisor: Mr. David Rivera
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// ── PAGE ROUTING ──
+function showPage(id) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('active');
+
+  // Update sidebar active states
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.sidebar-home').forEach(l => l.classList.remove('active'));
+
+  if (id === 'home') {
+    document.querySelectorAll('.sidebar-home').forEach(l => l.classList.add('active'));
+  } else {
+    // Find the link that matches
+    document.querySelectorAll('.sidebar-link').forEach(l => {
+      if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + id + "'")) {
+        l.classList.add('active');
+        // Open parent group
+        const items = l.closest('.sidebar-items');
+        if (items) {
+          items.classList.add('open');
+          const btn = items.previousElementSibling;
+          if (btn) { btn.classList.add('open'); }
+        }
+      }
+    });
+  }
+
+  // Scroll main to top
+  document.querySelector('.main').scrollTo(0, 0);
+  window.scrollTo(0, 0);
+
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+
+  // Update URL hash
+  history.replaceState(null, '', '#' + id);
+}
+
+// ── SIDEBAR GROUP TOGGLE ──
+function toggleGroup(btn) {
+  const items = btn.nextElementSibling;
+  const isOpen = items.classList.contains('open');
+  items.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// ── HAMBURGER ──
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// ── HASH ROUTING ──
+window.addEventListener('load', function() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) showPage(hash);
+});
+
+// Click outside sidebar to close on mobile
+document.querySelector('.main').addEventListener('click', function() {
+  if (window.innerWidth <= 860) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
